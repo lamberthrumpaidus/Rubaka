@@ -1,0 +1,95 @@
+What to do with bones?
+- Buy maps
+- Increase max health
+- Purchase checkpoint
+- Upgrade number of consecutive attack swipes
+- Upgrade dash to deal damage
+- Upgrade air jump +1 flap
+- Upgrade fireball damage (1->3)
+- Upgrade shooting & dashing from wall
+
+- GameState that is effectively load/reload (?)
+- Main menu => New Game vs Continue
+- Aim direction
+- Pogo on down-hit
+- (CRITICAL PERFORMANCE) Room loader/unloader mechanism (automatic from map file ideally, grid system)
+
+- Arrow trap
+- Enemy bat
+- Enemy that splits up
+- Enemy Orba
+- Enemy Ironclaw (TBD Skeleton attack behavior)
+- Enemy Archer
+
+- Optimize background parallax objects
+- Portals
+- Bazar (fireball gate)
+- Do not render out of frame
+- Use flameSFX for tail
+- Swift wind swirl on land / impact
+- Mandatory combat rooms
+- Boss fights?
+- Symbols above gates to "link them" to eachother mentally
+- Bug (that I kinda like) where attacking then jumping gives tall jump
+
+Motion
+- TBD opinions on ledge-walking
+- One-way terrain to jump through
+- Ground impact tilt forward animation
+
+Mechanics
+- Side quests: Collect artifacts, Collect bones, Liberate souls, Pay merchants, unlock portals.
+- Should there be a dash?
+- End goal is have max score with many bones. Death reduces your bone count by half or something. So does healing.
+- Bones make boss gith easier?
+- Time trials
+- Bone collection
+- Obstacle avoidance
+- Chores?
+- Catch bats?
+- Press down --> 5 bones to heal?
+- All bones lost on death?
+- 3 HP base
+- Heal ability?
+- Combat room (link kills to gate)?
+- Show bone count on empty slot for heal "cost"
+
+VFX
+- Enemy ground pound animation / pulse
+- Swift wind swirl on land / impact
+- Slash effect needs its own particle object
+
+The Styx (Biome)
+[X] Ash + Gray
+[X] Crossroads to other regions + Starting location
+[X] Skeletons
+[X] Platforming
+[X] Lava
+
+Asphodel Meadows (Biome)
+[X] Grass + Green
+[X] Gates + Switches
+[X] Treasure chests
+[X] Static spike traps
+[ ] Skeleton type 2
+[X] GRANT: HELLBOUND CLAWS
+
+Elysian Boneyard (Biome)
+[X] Bones + Light Purple
+[X] Spiders
+[X] Moving spike traps
+[X] Web gates
+[X] GRANT: INFERNAL FLAME
+
+Fields of Mourning (Biome)
+[X] Dirt + blueish
+[ ] Bats
+[ ] Projectile traps
+[X] Air jump Platforming
+[X] GRANT: DEMON WINGS
+
+Throne Room (Biome)
+- Reach the throne room to win
+
+
+
