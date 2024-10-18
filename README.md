@@ -3,7 +3,7 @@
 **Diciptakan dengan cinta oleh [Lamberth Rumpaidus](https://github.com/lamberthrumpaidus)**
 
 <div align="center">
-  <img src="Screenshot.png" width="400" height="300" alt="RUBAKA" title="TAMPILAN AWAL">
+  <img src="Screenshot.png" width="600" height="300" alt="RUBAKA" title="TAMPILAN AWAL">
   <p><i>TAMPILAN AWAL</i></p>
 </div>
 
