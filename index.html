@@ -1,4 +1,4 @@
-<html><title>RUBAKA</title><meta name="author" content="Lamberth Rumpaidus"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" /><link rel="shortcut icon"/><style>body{touch-action:none;overflow:hidden;background:#000;margin:0px;font-family:sans-serif;}h1{color:#fff;text-align:center;margin-top:30px;}h2{color:#666;font-style:italic;text-align:center;}.tbtn{display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:bold;color:#000;background:rgba(255,255,255,0.5);border:2px solid #fff;border-radius:50%;opacity:0.5;position:absolute;width:50px;height:50px;user-select:none;}</style><h1>🔥 RUBAKA 👑</h1><h2>(Press any key to start)</h2><canvas></canvas><div id="touchui" style="display:none;position:fixed;bottom:0;width:100%;height:100%;z-index:9;user-select:none;"><div id="t_u" class="tbtn" style="display:none;bottom:120px;left:70px;font-size:24px;">&#8593;</div><div id="t_d" class="tbtn" style="display:none;bottom:20px;left:70px;font-size:24px;">&#8595;</div><div id="t_l" class="tbtn" style="bottom:70px;left:20px;font-size:24px;">&#8592;</div><div id="t_r" class="tbtn" style="bottom:70px;left:120px;font-size:24px;">&#8594;</div><div id="t_a" class="tbtn" style="bottom:30px;right:30px;width:70px;height:70px;font-size:16px;">ATTACK</div><div id="t_j" class="tbtn" style="bottom:120px;right:30px;">JUMP</div><div id="t_c" class="tbtn" style="display:none;bottom:100px;right:100px;">DASH</div><div id="t_v" class="tbtn" style="display:none;bottom:40px;right:120px;">FIRE</div><div id="t_p" class="tbtn" style="top:80px;right:20px;font-size:12px;">PAUSE</div><div id="t_m" class="tbtn" style="top:20px;right:20px;font-size:12px;">MAP</div></div><script>(() => {
+<html><title>RUBAKA</title><meta name="author" content="Lamberth Rumpaidus"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" /><link rel="shortcut icon"/><style>body{touch-action:none;overflow:hidden;background:#000;margin:0px;font-family:sans-serif;}h1{color:#fff;text-align:center;margin-top:30px;}h2{color:#666;font-style:italic;text-align:center;}.tbtn{display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:bold;color:#000;background:rgba(255,255,255,0.5);border:2px solid #fff;border-radius:50%;opacity:0.5;position:absolute;width:50px;height:50px;user-select:none;}</style><h1>🔥 RUBAKA 👑</h1><h2>(Press any key to start)</h2><h3 style="color:#666;font-size:14px;text-align:center;position:absolute;bottom:20px;width:100%;margin:0;font-weight:normal;z-index:10;">Game ini dibuat dan dikembangkan oleh Lamberth Rumpaidus</h3><canvas></canvas><div id="touchui" style="display:none;position:fixed;bottom:0;width:100%;height:100%;z-index:9;user-select:none;"><div id="t_u" class="tbtn" style="display:none;bottom:120px;left:70px;font-size:24px;">&#8593;</div><div id="t_d" class="tbtn" style="display:none;bottom:20px;left:70px;font-size:24px;">&#8595;</div><div id="t_l" class="tbtn" style="bottom:70px;left:20px;font-size:24px;">&#8592;</div><div id="t_r" class="tbtn" style="bottom:70px;left:120px;font-size:24px;">&#8594;</div><div id="t_a" class="tbtn" style="bottom:30px;right:30px;width:70px;height:70px;font-size:16px;">ATTACK</div><div id="t_j" class="tbtn" style="bottom:120px;right:30px;">JUMP</div><div id="t_c" class="tbtn" style="display:none;bottom:100px;right:100px;">DASH</div><div id="t_v" class="tbtn" style="display:none;bottom:40px;right:120px;">FIRE</div><div id="t_topmenu" style="position:absolute;top:0;right:0;width:100px;height:120px;"><div id="t_p" class="tbtn" style="top:70px;right:20px;width:40px;height:40px;font-size:8px;opacity:0;transition:opacity 0.3s;">PAUSE</div><div id="t_m" class="tbtn" style="top:20px;right:20px;width:40px;height:40px;font-size:8px;opacity:0;transition:opacity 0.3s;">MAP</div></div></div><div id="cheatMenu" style="display:none;position:absolute;top:140px;right:20px;z-index:100;background:rgba(0,0,0,0.8);padding:10px;border-radius:8px;border:1px solid #fff;"><input type="text" id="cheatInput" placeholder="Kode Cheat..." style="width:120px;padding:8px;font-size:14px;border-radius:4px;border:none;" onkeydown="if(event.key==='Enter') window.submitCheat()"/><div onclick="window.submitCheat()" style="margin-top:8px;padding:8px;background:#fff;color:#000;text-align:center;font-weight:bold;border-radius:4px;cursor:pointer;">OK</div></div><script>(() => {
   // src/bus.js
   var HANDLES = {};
   function on(e, handler) {
@@ -142,6 +142,8 @@
   var EVENT_BONE_SPAWN = 19;
   var EVENT_PLAYER_RESET = 20;
   var EVENT_SET_VOLUME = 21;
+  var EVENT_CHEAT_KEBAL = 22;
+  var EVENT_CHEAT_SKILLS = 23;
 
   // src/controls.js
   var pressed = {};
@@ -186,9 +188,47 @@
     const tui = document.getElementById("touchui");
     if (tui && tui.style.display === "none") {
       tui.style.display = "block";
+      const tp = document.getElementById("t_p");
+      const tm = document.getElementById("t_m");
+      if (tp)
+        tp.style.opacity = "0.5";
+      if (tm)
+        tm.style.opacity = "0.5";
+      if (topMenuTimer)
+        clearTimeout(topMenuTimer);
+      topMenuTimer = setTimeout(() => {
+        if (window.isPaused)
+          return;
+        if (tp)
+          tp.style.opacity = "0";
+        if (tm)
+          tm.style.opacity = "0";
+      }, 3e3);
     }
   }, { passive: false });
+  var topMenuTimer = null;
   window.addEventListener("load", () => {
+    const ttm = document.getElementById("t_topmenu");
+    if (ttm) {
+      ttm.addEventListener("touchstart", () => {
+        const tp = document.getElementById("t_p");
+        const tm = document.getElementById("t_m");
+        if (tp)
+          tp.style.opacity = "0.5";
+        if (tm)
+          tm.style.opacity = "0.5";
+        if (topMenuTimer)
+          clearTimeout(topMenuTimer);
+        topMenuTimer = setTimeout(() => {
+          if (window.isPaused)
+            return;
+          if (tp)
+            tp.style.opacity = "0";
+          if (tm)
+            tm.style.opacity = "0";
+        }, 3e3);
+      });
+    }
     function hookTouch(id, keycode) {
       const el = document.getElementById(id);
       if (!el)
@@ -258,6 +298,30 @@
   var isPaused = false;
   function togglePause() {
     isPaused = !isPaused;
+    window.isPaused = isPaused;
+    const cheatMenu = document.getElementById("cheatMenu");
+    if (cheatMenu)
+      cheatMenu.style.display = isPaused ? "block" : "none";
+    if (isPaused) {
+      setTimeout(() => {
+        const cheatInput = document.getElementById("cheatInput");
+        if (cheatInput)
+          cheatInput.focus();
+      }, 10);
+    }
+    const tp = document.getElementById("t_p");
+    const tm = document.getElementById("t_m");
+    if (isPaused) {
+      if (tp)
+        tp.style.opacity = "0.5";
+      if (tm)
+        tm.style.opacity = "0.5";
+    } else {
+      if (tp)
+        tp.style.opacity = "0";
+      if (tm)
+        tm.style.opacity = "0";
+    }
   }
   function tick(currentFrameMs) {
     updateGameControls();
@@ -539,9 +603,9 @@
           ctx2.setTransform(4, 0, 0, 4, canvas.width / 2 - 252, canvas.height / 2 - 252);
           ctx2.drawImage(getObjectsByTag(TAG_MAP)[0].m, 0, 0);
           if (Math.cos(Date.now() / 50) < 0.5) {
-            const player = getObjectsByTag(TAG_PLAYER)[0].playerHitbox;
+            const player2 = getObjectsByTag(TAG_PLAYER)[0].playerHitbox;
             ctx2.fillStyle = "#e22";
-            ctx2.fillRect(player.x / 100 - 0.5, player.y / 100 - 1.5, 2, 2);
+            ctx2.fillRect(player2.x / 100 - 0.5, player2.y / 100 - 1.5, 2, 2);
           }
         }
         ctx2.setTransform(0.8, 0, 0, 0.8, 0, 0);
@@ -568,6 +632,16 @@
         renderText(`${getTreasures()} / ${getTotalNumTreasure()}`, 80, 103, 30);
         scaleInPlace(0.5, 50, 102);
         renderMesh(treasureMesh, 50, 120, 0, 0, 0, "#742");
+        const player = getObjectsByTag(TAG_PLAYER)[0];
+        if (player && player.getInvincibleTimer && player.getInvincibleTimer() > 0) {
+          const timeStr = Math.ceil(player.getInvincibleTimer());
+          ctx2.setTransform(1, 0, 0, 1, 0, 0);
+          ctx2.textAlign = "center";
+          ctx2.fillStyle = "#ffea00";
+          ctx2.font = "bold 24px arial";
+          ctx2.fillText(`KEBAL: ${timeStr}s`, canvas.width / 2, canvas.height - 40);
+          ctx2.textAlign = "left";
+        }
         if (fadeIn < 2) {
           ctx2.setTransform(1, 0, 0, 1, 0, 0);
           ctx2.fillStyle = `rgba(0,0,0,${1 - fadeIn * fadeIn / 4})`;
@@ -604,6 +678,10 @@
     on(EVENT_REGION, onRegionChange);
     on(EVENT_PLAYER_CHECKPOINT, onCheckpoint);
     on(EVENT_PLAYER_ABILITY_GRANT, onGrant);
+    on(EVENT_CHEAT_SKILLS, () => {
+      [0, 1, 2, 3].map((a) => unlockedAbilities[a] = true);
+      syncButtons();
+    });
     return {
       update,
       render,
@@ -844,6 +922,7 @@
     let hasClaws = false;
     let isDead = false;
     let walkTick = 0;
+    let invincibleTimer = 0;
     let isClimbingWall = false;
     let unstick = 0;
     let stick = 0;
@@ -932,6 +1011,8 @@
         return;
       }
       anim += dT;
+      if (invincibleTimer > 0)
+        invincibleTimer -= dT;
       attackTime = Math.min(attackTime + dT, 1);
       attackSwipe = Math.min(attackSwipe + 2 * dT, 1);
       attackSwipe2 = Math.min(attackSwipe2 + 2 * dT, 1);
@@ -1020,7 +1101,7 @@
         if (attackTime > 0.4) {
           attackSeq = 0;
         }
-        if (requestFireball && fireballTime > 1 && hasFlame) {
+        if (requestFireball && (fireballTime > 1 || window.lamCheat) && hasFlame) {
           fireballTime = 0;
           attackTime = 0;
           smoothAttacking = 1;
@@ -1042,7 +1123,7 @@
           anim += dT;
           climbAnim -= Math.sin(climbAnim) * 15 * dT;
         }
-        if (allowWallAbilities && requestFireball && fireballTime > 1 && hasFlame) {
+        if (allowWallAbilities && requestFireball && (fireballTime > 1 || window.lamCheat) && hasFlame) {
           fireballTime = 0;
           facing = -targetFacing;
           smoothAttacking = 1;
@@ -1057,7 +1138,7 @@
             groundTime = 0;
             dashing = false;
             emit(EVENT_JUMP);
-          } else if (numAirjumpsUsed < MAX_NUM_AIRJUMP) {
+          } else if (numAirjumpsUsed < MAX_NUM_AIRJUMP || window.lamCheat) {
             numAirjumpsUsed += 1;
             airJump = 1;
             vy = -1e3;
@@ -1132,6 +1213,8 @@
           return;
         }
         if (playerHitbox.isTouching(enemyHitbox) && injured <= 0 && attackTime > 0.15) {
+          if (invincibleTimer > 0 || window.lamCheat)
+            return;
           injured = 1;
           attackTime = 0;
           vx = Math.sign(x - enemyHitbox.x - enemyHitbox.w / 2) * 1100;
@@ -1317,6 +1400,10 @@
     }
     on(EVENT_PLAYER_ABILITY_GRANT, grant);
     on(EVENT_ATTACK_HIT, onAttackHit);
+    on(EVENT_CHEAT_KEBAL, () => invincibleTimer = 20);
+    on(EVENT_CHEAT_SKILLS, () => {
+      [0, 1, 2, 3].map((skill) => grant(skill));
+    });
     return {
       update,
       render,
@@ -1325,6 +1412,7 @@
       playerHitbox,
       grant,
       reset,
+      getInvincibleTimer: () => invincibleTimer,
       getDir: () => targetFacing,
       getVX: () => vx,
       getVY: () => vy
@@ -1430,7 +1518,7 @@
         vx = dir * 600;
         targetFacing = -Math.sign(dir);
         injured = 1;
-        hp2 -= isFlame ? 2 : 1;
+        hp2 -= window.lamCheat ? 99 : isFlame ? 2 : 1;
         if (hp2 <= 0) {
           emit(EVENT_BONE_SPAWN, [x, y - 55, 4, 1]);
         }
@@ -1646,7 +1734,7 @@
           targetFacing = -dir;
         }
         injured = 1;
-        hp2 -= isFlame ? 2 : 1;
+        hp2 -= window.lamCheat ? 99 : isFlame ? 2 : 1;
         if (hp2 <= 0) {
           emit(EVENT_BONE_SPAWN, [x + enemyHitbox.ox + enemyHitbox.w / 2, y + enemyHitbox.oy + enemyHitbox.h / 2, 7, 1]);
         }
@@ -2984,6 +3072,9 @@
     console.log("Audio init FINISHED!");
     document.getElementsByTagName("h2")[0].remove();
     h1.remove();
+    const h3 = document.getElementsByTagName("h3")[0];
+    if (h3)
+      h3.remove();
     console.log("UI removed!");
     loadProgress();
     clear();
@@ -3003,6 +3094,21 @@
     on(EVENT_PLAYER_HIT, (v) => addHp(-v));
     on(EVENT_PLAYER_CHECKPOINT, (v) => setCheckpointId(v));
     on(EVENT_PLAYER_RESET, (v) => respawn());
+    window.submitCheat = () => {
+      const input = document.getElementById("cheatInput");
+      if (!input)
+        return;
+      const code = input.value.toLowerCase().trim();
+      if (code === "kebal") {
+        emit(EVENT_CHEAT_KEBAL);
+      } else if (code === "buka") {
+        emit(EVENT_CHEAT_SKILLS);
+      } else if (code === "lam") {
+        window.lamCheat = true;
+      }
+      input.value = "";
+      togglePause();
+    };
     window.addEventListener("keydown", (e) => {
       if (e.code === "KeyP" || e.code === "Escape") {
         togglePause();

@@ -190,7 +190,7 @@ function Spider(x, y, type) {
                 targetFacing = -dir;
             }
             injured = 1;
-            hp -= isFlame ? 2 : 1;
+            hp -= window.lamCheat ? 99 : (isFlame ? 2 : 1);
             if (hp <= 0) {
                 bus.emit(EVENT_BONE_SPAWN, [x+enemyHitbox.ox+enemyHitbox.w/2,y+enemyHitbox.oy+enemyHitbox.h/2,7,1]);
             }

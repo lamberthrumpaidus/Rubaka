@@ -49,10 +49,38 @@ window.addEventListener('touchstart', (e) => {
     const tui = document.getElementById('touchui');
     if (tui && tui.style.display === 'none') {
         tui.style.display = 'block';
+        const tp = document.getElementById('t_p');
+        const tm = document.getElementById('t_m');
+        if (tp) tp.style.opacity = '0.5';
+        if (tm) tm.style.opacity = '0.5';
+        if (topMenuTimer) clearTimeout(topMenuTimer);
+        topMenuTimer = setTimeout(() => {
+            if (window.isPaused) return;
+            if (tp) tp.style.opacity = '0';
+            if (tm) tm.style.opacity = '0';
+        }, 3000);
     }
 }, {passive: false});
 
+let topMenuTimer = null;
+
 window.addEventListener('load', () => {
+    const ttm = document.getElementById('t_topmenu');
+    if (ttm) {
+        ttm.addEventListener('touchstart', () => {
+            const tp = document.getElementById('t_p');
+            const tm = document.getElementById('t_m');
+            if (tp) tp.style.opacity = '0.5';
+            if (tm) tm.style.opacity = '0.5';
+            if (topMenuTimer) clearTimeout(topMenuTimer);
+            topMenuTimer = setTimeout(() => {
+                if (window.isPaused) return;
+                if (tp) tp.style.opacity = '0';
+                if (tm) tm.style.opacity = '0';
+            }, 3000);
+        });
+    }
+
     function hookTouch(id, keycode) {
         const el = document.getElementById(id);
         if (!el) return;

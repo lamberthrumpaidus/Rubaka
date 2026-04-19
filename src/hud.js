@@ -3,7 +3,7 @@ import { boneMeshAsset, headMeshAsset, regionTitles, treasureMeshAsset } from ".
 import { canvas, color, renderMesh, renderText, retainTransform, scaleInPlace } from "./canvas";
 import { getBones, getDeathCount, getHp, getTotalNumTreasure, getTreasures } from "./gamestate";
 import { clamp, copy } from "./utils";
-import { EVENT_PLAYER_ABILITY_GRANT, EVENT_PLAYER_CHECKPOINT, EVENT_REGION } from './events';
+import { EVENT_PLAYER_ABILITY_GRANT, EVENT_PLAYER_CHECKPOINT, EVENT_REGION, EVENT_CHEAT_SKILLS } from './events';
 import { getObjectsByTag, getStartTime } from './engine';
 import { TAG_MAP, TAG_PLAYER } from './tags';
 import { holdingMap } from './controls';
@@ -83,6 +83,17 @@ function HUD() {
             scaleInPlace(0.5, 50, 102);
             renderMesh(treasureMesh, 50, 120, 0, 0, 0, '#742');
 
+            const player = getObjectsByTag(TAG_PLAYER)[0];
+            if (player && player.getInvincibleTimer && player.getInvincibleTimer() > 0) {
+                const timeStr = Math.ceil(player.getInvincibleTimer());
+                ctx.setTransform(1, 0, 0, 1, 0, 0);
+                ctx.textAlign = 'center';
+                ctx.fillStyle = '#ffea00';
+                ctx.font = 'bold 24px arial';
+                ctx.fillText(`KEBAL: ${timeStr}s`, canvas.width / 2, canvas.height - 40);
+                ctx.textAlign = 'left';
+            }
+
             // Fade in initial
             if (fadeIn < 2) {
                 ctx.setTransform(1, 0, 0, 1, 0, 0);
@@ -125,6 +136,10 @@ function HUD() {
     bus.on(EVENT_REGION, onRegionChange);
     bus.on(EVENT_PLAYER_CHECKPOINT, onCheckpoint);
     bus.on(EVENT_PLAYER_ABILITY_GRANT, onGrant);
+    bus.on(EVENT_CHEAT_SKILLS, () => {
+        [0, 1, 2, 3].map(a => unlockedAbilities[a] = true);
+        syncButtons();
+    });
 
     return {
         update,

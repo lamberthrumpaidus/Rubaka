@@ -6,7 +6,7 @@ import * as bus from './bus';
 import { clamp, copy, physicsCheck } from './utils';
 import { getHp } from './gamestate';
 import { headMeshAsset } from './assets';
-import { EVENT_ATTACK, EVENT_ATTACK_HIT, EVENT_BONE_SPAWN, EVENT_DASH, EVENT_FIREBALL, EVENT_FLAP, EVENT_JUMP, EVENT_PLAYER_ABILITY_GRANT, EVENT_PLAYER_HIT, EVENT_PLAYER_RESET, EVENT_WALK } from './events';
+import { EVENT_ATTACK, EVENT_ATTACK_HIT, EVENT_BONE_SPAWN, EVENT_DASH, EVENT_FIREBALL, EVENT_FLAP, EVENT_JUMP, EVENT_PLAYER_ABILITY_GRANT, EVENT_PLAYER_HIT, EVENT_PLAYER_RESET, EVENT_WALK, EVENT_CHEAT_KEBAL, EVENT_CHEAT_SKILLS } from './events';
 import { TAG_CAMERA, TAG_ENEMY, TAG_PLAYER } from './tags';
 
 function Player(x, y) {
@@ -27,6 +27,7 @@ function Player(x, y) {
     let hasClaws = false;
     let isDead = false;
     let walkTick = 0;
+    let invincibleTimer = 0;
 
     // Climbing
     let isClimbingWall = false;
@@ -130,6 +131,7 @@ function Player(x, y) {
     function update(dT) {
         if (isDead) { return; }
         anim += dT;
+        if (invincibleTimer > 0) invincibleTimer -= dT;
 
         attackTime = Math.min(attackTime + dT, 1);
         attackSwipe = Math.min(attackSwipe + 2 * dT, 1);
@@ -237,7 +239,7 @@ function Player(x, y) {
             }
             
             // Fireball
-            if (requestFireball && fireballTime > 1 && hasFlame) {
+            if (requestFireball && (fireballTime > 1 || window.lamCheat) && hasFlame) {
                 fireballTime = 0;
                 attackTime = 0;
                 smoothAttacking = 1;
@@ -262,7 +264,7 @@ function Player(x, y) {
             }
 
             // Fireball from wall
-            if (allowWallAbilities && requestFireball && fireballTime > 1 && hasFlame) {
+            if (allowWallAbilities && requestFireball && (fireballTime > 1 || window.lamCheat) && hasFlame) {
                 fireballTime = 0;
                 facing = -targetFacing;
                 smoothAttacking = 1;
@@ -279,7 +281,7 @@ function Player(x, y) {
                     groundTime = 0;
                     dashing = false;
                     bus.emit(EVENT_JUMP);
-                } else if (numAirjumpsUsed < MAX_NUM_AIRJUMP) {
+                } else if (numAirjumpsUsed < MAX_NUM_AIRJUMP || window.lamCheat) {
                     // Air jump
                     numAirjumpsUsed += 1;
                     airJump = 1;
@@ -364,6 +366,7 @@ function Player(x, y) {
         getObjectsByTag(TAG_ENEMY).map(({ enemyHitbox }) => {
             if (isDead || dashTimer < 0.3) { return; }
             if (playerHitbox.isTouching(enemyHitbox) && injured <= 0 && attackTime > 0.15) {
+                if (invincibleTimer > 0 || window.lamCheat) return; // CHEAT: KEBAL
                 injured = 1;
                 attackTime = 0;
                 vx = Math.sign(x - enemyHitbox.x - enemyHitbox.w/2) * 1100;
@@ -639,6 +642,10 @@ function Player(x, y) {
 
     bus.on(EVENT_PLAYER_ABILITY_GRANT, grant);
     bus.on(EVENT_ATTACK_HIT, onAttackHit);
+    bus.on(EVENT_CHEAT_KEBAL, () => invincibleTimer = 20);
+    bus.on(EVENT_CHEAT_SKILLS, () => {
+        [0, 1, 2, 3].map(skill => grant(skill));
+    });
 
     return {
         update,
@@ -648,6 +655,7 @@ function Player(x, y) {
         playerHitbox,
         grant,
         reset,
+        getInvincibleTimer: () => invincibleTimer,
         getDir: () => targetFacing,
         getVX: () => vx,
         getVY: () => vy,

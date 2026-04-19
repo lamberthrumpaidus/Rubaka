@@ -109,7 +109,7 @@ function Skeleton(x, y, type) {
             vx = dir * 600;
             targetFacing = -Math.sign(dir);
             injured = 1;
-            hp -= isFlame ? 2 : 1;
+            hp -= window.lamCheat ? 99 : (isFlame ? 2 : 1);
             if (hp <= 0) {
                 bus.emit(EVENT_BONE_SPAWN, [x,y-55,4,1]);
             }

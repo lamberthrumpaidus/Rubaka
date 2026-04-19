@@ -10,7 +10,29 @@ let startTime = 0;
 let startInvoked = false;
 
 let isPaused = false;
-function togglePause() { isPaused = !isPaused; }
+function togglePause() { 
+    isPaused = !isPaused; 
+    window.isPaused = isPaused;
+    const cheatMenu = document.getElementById('cheatMenu');
+    if (cheatMenu) cheatMenu.style.display = isPaused ? 'block' : 'none';
+    
+    if (isPaused) {
+        setTimeout(() => {
+            const cheatInput = document.getElementById('cheatInput');
+            if (cheatInput) cheatInput.focus();
+        }, 10);
+    }
+    
+    const tp = document.getElementById('t_p');
+    const tm = document.getElementById('t_m');
+    if (isPaused) {
+        if (tp) tp.style.opacity = '0.5';
+        if (tm) tm.style.opacity = '0.5';
+    } else {
+        if (tp) tp.style.opacity = '0';
+        if (tm) tm.style.opacity = '0';
+    }
+}
 
 function tick(currentFrameMs) {
     updateGameControls();

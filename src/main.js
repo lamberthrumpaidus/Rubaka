@@ -9,7 +9,7 @@ import Fireball from './fireball';
 import FlameSFX from './flame-sfx';
 import Audio from './audio';
 import ParticleEmit from './particles';
-import { EVENT_ANY_KEY, EVENT_BONE_COLLECT, EVENT_BONE_SPAWN, EVENT_FIREBALL, EVENT_PLAYER_CHECKPOINT, EVENT_PLAYER_HIT, EVENT_PLAYER_RESET, EVENT_SFX_FLAME, EVENT_SET_VOLUME } from './events';
+import { EVENT_ANY_KEY, EVENT_BONE_COLLECT, EVENT_BONE_SPAWN, EVENT_FIREBALL, EVENT_PLAYER_CHECKPOINT, EVENT_PLAYER_HIT, EVENT_PLAYER_RESET, EVENT_SFX_FLAME, EVENT_SET_VOLUME, EVENT_CHEAT_KEBAL, EVENT_CHEAT_SKILLS, EVENT_PLAYER_ABILITY_GRANT } from './events';
 import { headMeshAsset } from './assets';
 import { canvas, renderMesh, scaleInPlace } from './canvas';
 
@@ -34,6 +34,8 @@ async function initialize() {
     console.log("Audio init FINISHED!");
     document.getElementsByTagName('h2')[0].remove();
     h1.remove();
+    const h3 = document.getElementsByTagName('h3')[0];
+    if (h3) h3.remove();
     console.log("UI removed!");
     
     // Load the game scene
@@ -61,6 +63,22 @@ async function initialize() {
     bus.on(EVENT_PLAYER_HIT, (v) => addHp(-v));
     bus.on(EVENT_PLAYER_CHECKPOINT, (v) => setCheckpointId(v));
     bus.on(EVENT_PLAYER_RESET, (v) => respawn());
+
+
+    window.submitCheat = () => {
+        const input = document.getElementById('cheatInput');
+        if (!input) return;
+        const code = input.value.toLowerCase().trim();
+        if (code === 'kebal') {
+            bus.emit(EVENT_CHEAT_KEBAL);
+        } else if (code === 'buka') {
+            bus.emit(EVENT_CHEAT_SKILLS);
+        } else if (code === 'lam') {
+            window.lamCheat = true;
+        }
+        input.value = '';
+        togglePause(); // Resume game after cheat
+    };
 
     window.addEventListener('keydown', (e) => {
         if (e.code === 'KeyP' || e.code === 'Escape') {
