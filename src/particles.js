@@ -21,7 +21,6 @@ function getGlowImage(color) {
 
 export default function ParticleEmit(x, y, count, color, speedScale = 1) {
     const particles = [];
-    count = count * 4; // High Quality: Increase particle count
     for (let i = 0; i < count; i++) {
         const angle = Math.random() * Math.PI * 2;
         const speed = Math.random() * 200 * speedScale;

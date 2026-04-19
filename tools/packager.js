@@ -42,9 +42,9 @@ module.exports = {
         html += '<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />';
         html += '<link rel="shortcut icon"/>';
         html += '<style>body{touch-action:none;overflow:hidden;background:#000;margin:0px;font-family:sans-serif;}h1{color:#fff;text-align:center;margin-top:30px;}';
-        html += 'img.ctrl{position:fixed;top:280px;width:600px;left:50%;margin-left:-300px;}h2{color:#666;font-style:italic;text-align:center;}';
+        html += 'h2{color:#666;font-style:italic;text-align:center;}';
         html += '.tbtn{display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:bold;color:#000;background:rgba(255,255,255,0.5);border:2px solid #fff;border-radius:50%;opacity:0.5;position:absolute;width:50px;height:50px;user-select:none;}</style>';
-        html += '<h1>🔥 RUBAKA 👑</h1><h2>(Press any key to start)</h2><canvas></canvas><img class="ctrl" src=""/>';
+        html += '<h1>🔥 RUBAKA 👑</h1><h2>(Press any key to start)</h2><canvas></canvas>';
         html += '<div id="touchui" style="display:none;position:fixed;bottom:0;width:100%;height:100%;z-index:9;user-select:none;">';
         
         // D-Pad

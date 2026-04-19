@@ -12,7 +12,6 @@ import ParticleEmit from './particles';
 import { EVENT_ANY_KEY, EVENT_BONE_COLLECT, EVENT_BONE_SPAWN, EVENT_FIREBALL, EVENT_PLAYER_CHECKPOINT, EVENT_PLAYER_HIT, EVENT_PLAYER_RESET, EVENT_SFX_FLAME, EVENT_SET_VOLUME } from './events';
 import { headMeshAsset } from './assets';
 import { canvas, renderMesh, scaleInPlace } from './canvas';
-import controlsImage from "./controls-image.png";
 
 const gameMap = Map();
 async function initialize() {
@@ -33,7 +32,6 @@ async function initialize() {
     const audio = Audio();
     await audio.init();
     console.log("Audio init FINISHED!");
-    document.querySelector('img.ctrl').remove();
     document.getElementsByTagName('h2')[0].remove();
     h1.remove();
     console.log("UI removed!");
@@ -78,9 +76,6 @@ async function initialize() {
 }
 
 function mainMenu() {
-    // Render controls
-    const img = document.querySelector('img.ctrl');
-    img.src = controlsImage;
 
     // Floaty head
     add({
