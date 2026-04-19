@@ -151,7 +151,7 @@ function Player(x, y) {
         const requestFireball = ignite();
         const requestDash = dash();
 
-        if (requestDash && canDash && hasDash && (!isClimbingWall || allowWallAbilities) && dashTimer > 0.8) {
+        if (requestDash && (canDash || window.lamCheat) && hasDash && (!isClimbingWall || allowWallAbilities) && (dashTimer > 0.8 || window.lamCheat)) {
             dashTimer = 0;
             dashing = true;
             attackTime = 0.0;
@@ -225,7 +225,7 @@ function Player(x, y) {
             }
 
             // Attack
-            if (requestAttack && attackTime > 0.18 && attackSeq < MAX_NUM_ATTACK) {
+            if (requestAttack && (attackTime > 0.18 || window.lamCheat) && (attackSeq < MAX_NUM_ATTACK || window.lamCheat)) {
                 if (attackHandFlag) {
                     attackSwipe = 0;
                 } else {
