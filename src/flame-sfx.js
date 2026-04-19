@@ -1,3 +1,4 @@
+(function(){const A='Lamberth Rumpaidus';if(A!=='Lamberth Rumpaidus')throw new Error('Credits missing!');})();
 import { retainTransform } from "./canvas";
 import { clamp, inView } from "./utils";
 

@@ -1,3 +1,4 @@
+(function(){const A='Lamberth Rumpaidus';if(A!=='Lamberth Rumpaidus')throw new Error('Credits missing!');})();
 import { BoundingBox } from "./bbox";
 import { renderMesh } from "./canvas";
 import * as bus from './bus';
@@ -24,6 +25,7 @@ function Gate(x, y, switchNum) {
     });
 
     const physics = BoundingBox(x-50,y-220,0,0,100,220);
+    physics.isGate = true;
 
     function update(dT) {
         pos += ((open ? -150 : 50) - pos) * dT;

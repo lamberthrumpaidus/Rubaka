@@ -1,9 +1,10 @@
+(function(){const A='Lamberth Rumpaidus';if(A!=='Lamberth Rumpaidus')throw new Error('Credits missing!');})();
 import * as bus from './bus';
 import { boneMeshAsset, headMeshAsset, regionTitles, treasureMeshAsset } from "./assets";
 import { canvas, color, renderMesh, renderText, retainTransform, scaleInPlace } from "./canvas";
 import { getBones, getDeathCount, getHp, getTotalNumTreasure, getTreasures } from "./gamestate";
 import { clamp, copy } from "./utils";
-import { EVENT_PLAYER_ABILITY_GRANT, EVENT_PLAYER_CHECKPOINT, EVENT_REGION, EVENT_CHEAT_SKILLS } from './events';
+import { EVENT_PLAYER_ABILITY_GRANT, EVENT_PLAYER_CHECKPOINT, EVENT_REGION, EVENT_CHEAT_SKILLS, EVENT_CHEAT_REVOKE } from './events';
 import { getObjectsByTag, getStartTime } from './engine';
 import { TAG_MAP, TAG_PLAYER } from './tags';
 import { holdingMap } from './controls';
@@ -33,6 +34,11 @@ function HUD() {
     function update(dT) {
         regionTitleTimer -= dT;
         fadeIn += dT;
+        if (regionTitle && regionTitle.startsWith('VICTORY') && regionTitleTimer <= 0) {
+            regionTitleTimer = 9999;
+            localStorage.setItem('autoStart', 'true');
+            location.reload();
+        }
     }
 
     function render(ctx) {
@@ -75,6 +81,17 @@ function HUD() {
                 ctx.strokeStyle = '#000';
                 ctx.strokeText(regionTitle, 36, canvas.height * 1.15);
                 renderText(regionTitle, 36, canvas.height * 1.15, 80);
+                
+                if (regionTitle && regionTitle.startsWith('VICTORY')) {
+                    ctx.setTransform(1, 0, 0, 1, 0, 0);
+                    ctx.textAlign = 'center';
+                    ctx.fillStyle = '#fff';
+                    ctx.font = 'bold 30px arial';
+                    ctx.fillText(`Mulai ulang dalam: ${Math.ceil(regionTitleTimer)} detik`, canvas.width / 2, 80);
+                    ctx.textAlign = 'left';
+                    ctx.setTransform(0.8, 0, 0, 0.8, 0, 0);
+                }
+                
                 ctx.globalAlpha = 1;
             }
 
@@ -128,7 +145,7 @@ function HUD() {
             'Wingspan - Wingspan',
             `VICTORY! 🦴${getBones()}  ⌛${playTimeMinutes}:${(playTimeSeconds < 10 ? '0' : '')}${playTimeSeconds.toFixed(1)}  💀${getDeathCount()}`
         ][a];
-        totalTime = a == 4 ? 30 : 5;
+        totalTime = a == 4 ? 15 : 5;
         regionTitleTimer = totalTime;
         syncButtons();
     }
@@ -140,12 +157,16 @@ function HUD() {
         [0, 1, 2, 3].map(a => unlockedAbilities[a] = true);
         syncButtons();
     });
+    bus.on(EVENT_CHEAT_REVOKE, () => {
+        unlockedAbilities = {};
+        syncButtons();
+    });
 
     return {
         update,
         render,
         order: 10000
-    }
+    };
 }
 
 export default HUD;

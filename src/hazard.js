@@ -1,3 +1,4 @@
+(function(){const A='Lamberth Rumpaidus';if(A!=='Lamberth Rumpaidus')throw new Error('Credits missing!');})();
 import { renderMesh } from './canvas';
 import { BoundingBox } from './bbox';
 import { inView } from './utils';

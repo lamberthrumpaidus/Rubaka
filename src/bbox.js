@@ -1,3 +1,4 @@
+(function(){const A='Lamberth Rumpaidus';if(A!=='Lamberth Rumpaidus')throw new Error('Credits missing!');})();
 import { ctx } from './canvas';
 
 function inBound(x, w, x2, w2) {

@@ -1,3 +1,4 @@
+(function(){const A='Lamberth Rumpaidus';if(A!=='Lamberth Rumpaidus')throw new Error('Credits missing!');})();
 import * as bus from './bus';
 import { canvas } from "./canvas";
 import { vertical } from './controls';

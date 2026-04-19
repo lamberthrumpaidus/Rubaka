@@ -1,3 +1,4 @@
+(function(){const A='Lamberth Rumpaidus';if(A!=='Lamberth Rumpaidus')throw new Error('Credits missing!');})();
 import { canvas, ctx, retainTransform } from './canvas';
 import { updateGameControls } from './controls';
 import { TAG_CAMERA } from './tags';

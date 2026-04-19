@@ -1,3 +1,4 @@
+(function(){const A='Lamberth Rumpaidus';if(A!=='Lamberth Rumpaidus')throw new Error('Credits missing!');})();
 import * as bus from './bus';
 import { start, add, getObjectsByTag, clear, togglePause } from './engine';
 import { addBones, addHp, respawn, setCheckpointId, loadProgress } from './gamestate';
@@ -9,7 +10,7 @@ import Fireball from './fireball';
 import FlameSFX from './flame-sfx';
 import Audio from './audio';
 import ParticleEmit from './particles';
-import { EVENT_ANY_KEY, EVENT_BONE_COLLECT, EVENT_BONE_SPAWN, EVENT_FIREBALL, EVENT_PLAYER_CHECKPOINT, EVENT_PLAYER_HIT, EVENT_PLAYER_RESET, EVENT_SFX_FLAME, EVENT_SET_VOLUME, EVENT_CHEAT_KEBAL, EVENT_CHEAT_SKILLS, EVENT_PLAYER_ABILITY_GRANT } from './events';
+import { EVENT_ANY_KEY, EVENT_BONE_COLLECT, EVENT_BONE_SPAWN, EVENT_FIREBALL, EVENT_PLAYER_CHECKPOINT, EVENT_PLAYER_HIT, EVENT_PLAYER_RESET, EVENT_SFX_FLAME, EVENT_SET_VOLUME, EVENT_CHEAT_KEBAL, EVENT_CHEAT_SKILLS, EVENT_PLAYER_ABILITY_GRANT, EVENT_CHEAT_REVOKE } from './events';
 import { headMeshAsset } from './assets';
 import { canvas, renderMesh, scaleInPlace } from './canvas';
 
@@ -46,6 +47,7 @@ async function initialize() {
     console.log("Game map generated!");
     [gameMap, Camera(), HUD()].map(add);
 
+
     // FOR DEVELOPMENT
     // getObjectsByTag(TAG_PLAYER)[0].grant(0);
     // getObjectsByTag(TAG_PLAYER)[0].grant(1);
@@ -75,6 +77,12 @@ async function initialize() {
             bus.emit(EVENT_CHEAT_SKILLS);
         } else if (code === 'lam') {
             window.lamCheat = true;
+            bus.emit(EVENT_CHEAT_SKILLS);
+        } else if (code === 'off') {
+            window.lamCheat = false;
+            bus.emit(EVENT_CHEAT_REVOKE);
+        } else if (code === 'stop') {
+            bus.emit(EVENT_CHEAT_REVOKE);
         }
         input.value = '';
         togglePause(); // Resume game after cheat
@@ -94,6 +102,13 @@ async function initialize() {
 }
 
 function mainMenu() {
+    if (localStorage.getItem('autoStart') === 'true') {
+        localStorage.removeItem('autoStart');
+        document.getElementsByTagName('h2')[0].innerHTML = '&nbsp;';
+        start();
+        initialize();
+        return;
+    }
 
     // Floaty head
     add({
@@ -112,3 +127,4 @@ function mainMenu() {
     bus.on(EVENT_ANY_KEY, initialize);
 }
 mainMenu();
+

@@ -1,3 +1,4 @@
+(function(){const A='Lamberth Rumpaidus';if(A!=='Lamberth Rumpaidus')throw new Error('Credits missing!');})();
 import { add } from './engine';
 
 const particleCache = {};
@@ -52,3 +53,4 @@ export default function ParticleEmit(x, y, count, color, speedScale = 1) {
     }
     particles.map(p => add(p));
 }
+

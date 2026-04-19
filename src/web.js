@@ -1,3 +1,4 @@
+(function(){const A='Lamberth Rumpaidus';if(A!=='Lamberth Rumpaidus')throw new Error('Credits missing!');})();
 import { BoundingBox } from "./bbox";
 import { renderMesh } from "./canvas";
 import * as bus from './bus';
@@ -29,6 +30,7 @@ function Web(x, y) {
     const webbing = [];
     webMesh.push(webbing);
     const physics = BoundingBox(x-50, y-100, 0, 0, 100, 200);
+    physics.isWeb = true;
 
     function update(dT) {
         anim += dT * 56;

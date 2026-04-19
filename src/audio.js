@@ -1,3 +1,4 @@
+(function(){const A='Lamberth Rumpaidus';if(A!=='Lamberth Rumpaidus')throw new Error('Credits missing!');})();
 import * as bus from './bus'
 import { clamp } from './utils';
 import { EVENT_ATTACK, EVENT_ATTACK_HIT, EVENT_BONE_COLLECT, EVENT_BONE_DINK, EVENT_DASH, EVENT_FIREBALL, EVENT_FLAP, EVENT_FOCUS, EVENT_FOCUS_STOP, EVENT_JUMP, EVENT_PLAYER_ABILITY_GRANT, EVENT_PLAYER_CHECKPOINT, EVENT_PLAYER_HIT, EVENT_REGION, EVENT_SWITCH, EVENT_WALK, EVENT_WEB_BOING, EVENT_SET_VOLUME } from './events';

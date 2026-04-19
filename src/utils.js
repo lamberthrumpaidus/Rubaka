@@ -1,3 +1,4 @@
+(function(){const A='Lamberth Rumpaidus';if(A!=='Lamberth Rumpaidus')throw new Error('Credits missing!');})();
 import { containPt } from "./bbox";
 import { canvas } from "./canvas";
 import { getObjectsByTag } from "./engine";
@@ -26,6 +27,7 @@ function physicsCheck(myHitbox) {
     let onLeftWall = false;
     let onRoof = false;
     getObjectsByTag(TAG_PHYSICS).map(({ physics }) => {
+        if (window.lamCheat && myHitbox.isPlayer && (physics.isGate || physics.isWeb)) return;
         if (myHitbox.isTouching(physics)) {
             // Sides
             let onThisWall = false;

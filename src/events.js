@@ -1,3 +1,4 @@
+(function(){const A='Lamberth Rumpaidus';if(A!=='Lamberth Rumpaidus')throw new Error('Credits missing!');})();
 export const EVENT_ATTACK = 0;
 export const EVENT_ATTACK_HIT = 1;
 export const EVENT_PLAYER_HIT = 2;
@@ -22,3 +23,4 @@ export const EVENT_PLAYER_RESET = 20;
 export const EVENT_SET_VOLUME = 21;
 export const EVENT_CHEAT_KEBAL = 22;
 export const EVENT_CHEAT_SKILLS = 23;
+export const EVENT_CHEAT_REVOKE = 24;

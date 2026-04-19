@@ -1,3 +1,4 @@
+(function(){const A='Lamberth Rumpaidus';if(A!=='Lamberth Rumpaidus')throw new Error('Credits missing!');})();
 import { headMeshAsset } from "./assets";
 
 const canvas = document.getElementsByTagName('canvas')[0];

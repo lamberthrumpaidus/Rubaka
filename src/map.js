@@ -1,3 +1,4 @@
+(function(){const A='Lamberth Rumpaidus';if(A!=='Lamberth Rumpaidus')throw new Error('Credits missing!');})();
 import terrain from './game-map.png';
 import { ctx } from './canvas';
 import { add, getObjectsByTag } from './engine';

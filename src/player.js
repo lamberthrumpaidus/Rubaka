@@ -1,3 +1,4 @@
+(function(){const A='Lamberth Rumpaidus';if(A!=='Lamberth Rumpaidus')throw new Error('Credits missing!');})();
 import { horizontal, vertical, jump, holdingJump, attack, ignite, dash } from './controls';
 import { color, renderMesh, retainTransform } from './canvas';
 import { getObjectsByTag } from './engine';
@@ -6,7 +7,7 @@ import * as bus from './bus';
 import { clamp, copy, physicsCheck } from './utils';
 import { getHp } from './gamestate';
 import { headMeshAsset } from './assets';
-import { EVENT_ATTACK, EVENT_ATTACK_HIT, EVENT_BONE_SPAWN, EVENT_DASH, EVENT_FIREBALL, EVENT_FLAP, EVENT_JUMP, EVENT_PLAYER_ABILITY_GRANT, EVENT_PLAYER_HIT, EVENT_PLAYER_RESET, EVENT_WALK, EVENT_CHEAT_KEBAL, EVENT_CHEAT_SKILLS } from './events';
+import { EVENT_ATTACK, EVENT_ATTACK_HIT, EVENT_BONE_SPAWN, EVENT_DASH, EVENT_FIREBALL, EVENT_FLAP, EVENT_JUMP, EVENT_PLAYER_ABILITY_GRANT, EVENT_PLAYER_HIT, EVENT_PLAYER_RESET, EVENT_WALK, EVENT_CHEAT_KEBAL, EVENT_CHEAT_SKILLS, EVENT_CHEAT_REVOKE } from './events';
 import { TAG_CAMERA, TAG_ENEMY, TAG_PLAYER } from './tags';
 
 function Player(x, y) {
@@ -23,6 +24,7 @@ function Player(x, y) {
     let groundTime = 0;
     let smoothGrounded = 0;
     let playerHitbox = BoundingBox(x, y, -14, -55, 28, 50);
+    playerHitbox.isPlayer = true;
     let injured = 0;
     let hasClaws = false;
     let isDead = false;
@@ -109,6 +111,9 @@ function Player(x, y) {
         if (ability == 0) {
             hasDash = true;
             headMesh = copy(headMeshAsset);
+            if (window.lamCheat) {
+                headMesh[3][0] = '#fd0';
+            }
         }
         // Claws
         if (ability == 1) {
@@ -645,6 +650,18 @@ function Player(x, y) {
     bus.on(EVENT_CHEAT_KEBAL, () => invincibleTimer = 20);
     bus.on(EVENT_CHEAT_SKILLS, () => {
         [0, 1, 2, 3].map(skill => grant(skill));
+    });
+    bus.on(EVENT_CHEAT_REVOKE, () => {
+        hasDash = false;
+        hasClaws = false;
+        hasFlame = false;
+        MAX_NUM_AIRJUMP = 0;
+        headMesh = copy(headMeshAsset);
+        handMesh.length = 0;
+        handMesh.push(['#111', 3, 0], [18, 5, 25, 8], [15, 9, 22, 13]);
+        wingMesh.length = 0;
+        wingMesh.push(['#e22', 3, 0]);
+        invincibleTimer = 0;
     });
 
     return {

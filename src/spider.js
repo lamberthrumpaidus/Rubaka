@@ -1,3 +1,4 @@
+(function(){const A='Lamberth Rumpaidus';if(A!=='Lamberth Rumpaidus')throw new Error('Credits missing!');})();
 import { renderMesh, retainTransform, scaleInPlace } from './canvas';
 import { getObjectsByTag } from './engine';
 import * as bus from './bus';
