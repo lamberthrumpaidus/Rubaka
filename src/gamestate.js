@@ -5,15 +5,23 @@ let deathCount = 0;
 let treasures = 0;
 let totalTreasures = 0;
 
+function saveProgress() {
+    // Disabled
+}
+
+function loadProgress() {
+    // Disabled
+}
+
 function addHp(h) { hp += h; }
 function getHp() { return hp; }
-function addBones(b) { bones = Math.max(bones + b, 0); }
+function addBones(b) { bones = Math.max(bones + b, 0); saveProgress(); }
 function getBones() { return bones; }
-function respawn() { bones = bones>>1; hp = 3; deathCount++; }
-function setCheckpointId(id) { checkpointId = id; hp = 3; }
+function respawn() { bones = bones>>1; hp = 3; deathCount++; saveProgress(); }
+function setCheckpointId(id) { checkpointId = id; hp = 3; saveProgress(); }
 function getCheckpointId() { return checkpointId; }
 function getDeathCount() { return deathCount; }
-function foundTreasure() { treasures++; }
+function foundTreasure() { treasures++; saveProgress(); }
 function getTreasures() { return treasures; }
 function getTotalNumTreasure() { return totalTreasures; }
 function setTotalNumTreasure(v) { totalTreasures = v; }
@@ -31,4 +39,6 @@ export {
     getTotalNumTreasure,
     setTotalNumTreasure,
     respawn,
+    saveProgress,
+    loadProgress,
 }

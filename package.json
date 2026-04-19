@@ -1,16 +1,17 @@
 {
     "name": "RUBAKA",
     "version": "1.0.0",
-    "description": "",
+    "description": "An action-platformer game by Lamberth Rumpaidus",
+    "author": "Lamberth Rumpaidus",
     "main": "index.js",
     "scripts": {
-        "dev:optimize": "node tools/esbuild.js --watch --minify --roadroll",
-        "dev:minify": "node tools/esbuild.js --watch --minify",
+        "dev:optimize": "node tools/esbuild.js --watch",
+        "dev:minify": "node tools/esbuild.js --watch",
         "dev": "node tools/esbuild.js --watch",
-        "build": "node tools/esbuild.js --minify --roadroll"
+        "build": "node tools/esbuild.js"
     },
     "license": "ISC",
-        "devDependencies": {
+    "devDependencies": {
         "bestzip": "^2.2.1",
         "chalk": "^4.1.2",
         "esbuild": "^0.15.5",

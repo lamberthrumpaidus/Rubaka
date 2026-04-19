@@ -20,6 +20,10 @@ function FlameSFX(x, y, scale, lifetime, rot = 0) {
 
     function render(ctx) {
         retainTransform(() => {
+            ctx.globalCompositeOperation = 'lighter';
+            ctx.shadowBlur = 15;
+            ctx.shadowColor = '#f53';
+            
             ctx.translate(x, y);
             ctx.rotate(-rot);
             ctx.fillStyle = '#f93';
@@ -34,6 +38,9 @@ function FlameSFX(x, y, scale, lifetime, rot = 0) {
             ctx.beginPath();
             ctx.arc(Math.cos(anim * 13) * scale / 2, - scale * 4, 5 * scale * (1 + Math.cos(anim * 11) * 0.1), 0, 6.28);
             ctx.fill();
+            
+            ctx.globalCompositeOperation = 'source-over';
+            ctx.shadowBlur = 0;
         });
     }
 

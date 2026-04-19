@@ -13,6 +13,18 @@ function HUD() {
     let regionTitleTimer;
     let totalTime;
     let fadeIn = 0;
+    let unlockedAbilities = {};
+
+    function syncButtons() {
+        const t_c = document.getElementById('t_c');
+        if (t_c) {
+            t_c.style.display = unlockedAbilities[0] ? 'flex' : 'none';
+            document.getElementById('t_u').style.display = unlockedAbilities[1] ? 'flex' : 'none';
+            document.getElementById('t_d').style.display = unlockedAbilities[1] ? 'flex' : 'none';
+            document.getElementById('t_v').style.display = unlockedAbilities[2] ? 'flex' : 'none';
+        }
+    }
+    syncButtons();
 
     const headMesh = copy(headMeshAsset);
     const boneMesh = copy(boneMeshAsset);
@@ -27,21 +39,21 @@ function HUD() {
         retainTransform(() => {
             // Render minimap
             if (holdingMap()) {
-                ctx.setTransform(1,0,0,1,0,0);
-                ctx.fillStyle='rgba(0,0,0,0.7)';
-                ctx.fillRect(0,0,canvas.width, canvas.height);
-                ctx.setTransform(4,0,0,4,canvas.width/2-252, canvas.height/2-252);
+                ctx.setTransform(1, 0, 0, 1, 0, 0);
+                ctx.fillStyle = 'rgba(0,0,0,0.7)';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                ctx.setTransform(4, 0, 0, 4, canvas.width / 2 - 252, canvas.height / 2 - 252);
                 ctx.drawImage(getObjectsByTag(TAG_MAP)[0].m, 0, 0);
-                if (Math.cos(Date.now()/50)<0.5) {
+                if (Math.cos(Date.now() / 50) < 0.5) {
                     const player = getObjectsByTag(TAG_PLAYER)[0].playerHitbox;
                     ctx.fillStyle = '#e22';
-                    ctx.fillRect(player.x/100-0.5, player.y/100-1.5, 2, 2);
+                    ctx.fillRect(player.x / 100 - 0.5, player.y / 100 - 1.5, 2, 2);
                 }
             }
 
-            ctx.setTransform(0.8,0,0,0.8,0,0);
+            ctx.setTransform(0.8, 0, 0, 0.8, 0, 0);
             // Render HP
-            for (let i = 0 ; i < 3; i++) {
+            for (let i = 0; i < 3; i++) {
                 if (i >= getHp()) {
                     headMesh[0][0] = headMesh[3][0] = '#555';
                 } else {
@@ -63,7 +75,7 @@ function HUD() {
                 ctx.strokeStyle = '#000';
                 ctx.strokeText(regionTitle, 36, canvas.height * 1.15);
                 renderText(regionTitle, 36, canvas.height * 1.15, 80);
-                ctx.globalAlpha = 1; 
+                ctx.globalAlpha = 1;
             }
 
             // Render Treasure count
@@ -73,9 +85,9 @@ function HUD() {
 
             // Fade in initial
             if (fadeIn < 2) {
-                ctx.setTransform(1,0,0,1,0,0);
-                ctx.fillStyle=`rgba(0,0,0,${1-fadeIn*fadeIn/4})`;
-                ctx.fillRect(0,0,canvas.width,canvas.height);
+                ctx.setTransform(1, 0, 0, 1, 0, 0);
+                ctx.fillStyle = `rgba(0,0,0,${1 - fadeIn * fadeIn / 4})`;
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
             }
         });
     }
@@ -93,19 +105,21 @@ function HUD() {
     }
 
     function onGrant(a) {
-        let playTimeSeconds = (Date.now() - getStartTime())/1000;
+        unlockedAbilities[a] = true;
+        let playTimeSeconds = (Date.now() - getStartTime()) / 1000;
         let playTimeMinutes = parseInt(playTimeSeconds / 60);
         playTimeSeconds -= playTimeMinutes * 60;
 
         regionTitle = [
-            'Twisted Horns - [C] or [K] to dash',
+            'Twisted Horns - Dash',
             'Iron Claws - Climb walls',
-            'Fireball - [V] or [L] to cast',
-            'Wingspan - Double jump to use',
+            'Fireball - Fireball',
+            'Wingspan - Wingspan',
             `VICTORY! 🦴${getBones()}  ⌛${playTimeMinutes}:${(playTimeSeconds < 10 ? '0' : '')}${playTimeSeconds.toFixed(1)}  💀${getDeathCount()}`
         ][a];
-        totalTime = a==4 ? 30 : 5;
+        totalTime = a == 4 ? 30 : 5;
         regionTitleTimer = totalTime;
+        syncButtons();
     }
 
     bus.on(EVENT_REGION, onRegionChange);

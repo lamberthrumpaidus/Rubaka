@@ -9,6 +9,9 @@ let lastFrameMs = 0;
 let startTime = 0;
 let startInvoked = false;
 
+let isPaused = false;
+function togglePause() { isPaused = !isPaused; }
+
 function tick(currentFrameMs) {
     updateGameControls();
     if (!startInvoked) { requestAnimationFrame(tick); return; }
@@ -18,6 +21,8 @@ function tick(currentFrameMs) {
     ctx.textBaseline = 'middle';
     ctx.lineJoin = 'round';
     ctx.lineCap = 'round';
+    ctx.globalCompositeOperation = 'source-over';
+    ctx.shadowBlur = 0;
     
     retainTransform(() => {
         const camera = getObjectsByTag(TAG_CAMERA)[0];
@@ -25,13 +30,25 @@ function tick(currentFrameMs) {
             camera.set(ctx);
         }
 
-        objectsToRemove.length = 0;
-        gameObjects.map((g) => { if (g.update?.(dT)) { objectsToRemove.push(g); } });
-        if (objectsToRemove.length) { remove(objectsToRemove); }
+        if (!isPaused) {
+            objectsToRemove.length = 0;
+            gameObjects.map((g) => { if (g.update?.(dT)) { objectsToRemove.push(g); } });
+            if (objectsToRemove.length) { remove(objectsToRemove); }
+        }
         if (camera) {
             gameObjects.map((g) => { if (g.inView(camera.x, camera.y)) { g.render?.(ctx); }});
         } else {
             gameObjects.map((g) => { g.render?.(ctx); });
+        }
+
+        if (isPaused) {
+            ctx.setTransform(1, 0, 0, 1, 0, 0);
+            ctx.fillStyle = 'rgba(0,0,0,0.5)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = '#fff';
+            ctx.textAlign = 'center';
+            ctx.font = 'bold 40px arial';
+            ctx.fillText('PAUSED', canvas.width / 2, canvas.height / 2);
         }
         lastFrameMs = currentFrameMs;
     });
@@ -89,4 +106,5 @@ export {
     getStartTime,
 
     getObjectsByTag,
+    togglePause,
 };

@@ -2,7 +2,7 @@ import * as bus from './bus';
 import { canvas } from "./canvas";
 import { vertical } from './controls';
 import { getObjectsByTag } from "./engine"
-import { EVENT_PLAYER_ABILITY_GRANT, EVENT_PLAYER_CHECKPOINT, EVENT_PLAYER_HIT } from './events';
+import { EVENT_PLAYER_ABILITY_GRANT, EVENT_PLAYER_CHECKPOINT, EVENT_PLAYER_HIT, EVENT_ATTACK_HIT, EVENT_FIREBALL } from './events';
 import { getHp } from './gamestate';
 import { TAG_CAMERA, TAG_MAP, TAG_PLAYER } from './tags';
 
@@ -76,10 +76,13 @@ function Camera(x, y) {
     }
     
     function shakeIt() { shake=0.5; }
+    function miniShake() { shake=Math.max(shake, 0.15); }
 
     bus.on(EVENT_PLAYER_HIT, shakeIt);
     bus.on(EVENT_PLAYER_ABILITY_GRANT, shakeIt);
     bus.on(EVENT_PLAYER_CHECKPOINT, shakeIt);
+    bus.on(EVENT_ATTACK_HIT, miniShake);
+    bus.on(EVENT_FIREBALL, miniShake);
 
     self = {
         update,

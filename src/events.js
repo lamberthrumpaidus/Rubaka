@@ -19,3 +19,4 @@ export const EVENT_ANY_KEY = 17;
 export const EVENT_SFX_FLAME = 18;
 export const EVENT_BONE_SPAWN = 19;
 export const EVENT_PLAYER_RESET = 20;
+export const EVENT_SET_VOLUME = 21;

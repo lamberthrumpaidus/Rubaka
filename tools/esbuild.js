@@ -31,12 +31,6 @@ let postBuildPlugin = {
         })
 
         build.onEnd(async() => {
-            if (useMinify) {
-                minify();
-            }
-            if (useRoadroller) {
-                await optimize();
-            }
             html();
             await zip();
             stats();

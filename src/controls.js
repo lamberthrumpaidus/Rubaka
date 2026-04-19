@@ -22,7 +22,7 @@ function updateGameControls() {
     Object.entries(GAMEPAD_BUTTON_MAP).map(([btn, code]) => mapPadToKey(gp?.buttons[btn], code));
 }
 
-// KEYBOARD
+// KEYBOARD & MOUSE
 onkeydown = (evt) => {
     if (!pressed[evt.code]) {
         pressed[evt.code] = Date.now();
@@ -31,6 +31,54 @@ onkeydown = (evt) => {
 }
 
 onkeyup = (evt) => delete pressed[evt.code];
+
+window.addEventListener('mousedown', (e) => {
+    if (e.button === 0 && !pressed['MouseLeft']) {
+        pressed['MouseLeft'] = Date.now();
+        bus.emit(EVENT_ANY_KEY);
+    }
+});
+
+window.addEventListener('mouseup', (e) => {
+    if (e.button === 0) {
+        delete pressed['MouseLeft'];
+    }
+});
+
+window.addEventListener('touchstart', (e) => {
+    const tui = document.getElementById('touchui');
+    if (tui && tui.style.display === 'none') {
+        tui.style.display = 'block';
+    }
+}, {passive: false});
+
+window.addEventListener('load', () => {
+    function hookTouch(id, keycode) {
+        const el = document.getElementById(id);
+        if (!el) return;
+        el.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            pressed[keycode] = Date.now();
+            bus.emit(EVENT_ANY_KEY);
+            window.dispatchEvent(new KeyboardEvent('keydown', { code: keycode, key: keycode }));
+        }, {passive: false});
+        el.addEventListener('touchend', (e) => {
+            e.preventDefault();
+            delete pressed[keycode];
+            window.dispatchEvent(new KeyboardEvent('keyup', { code: keycode, key: keycode }));
+        }, {passive: false});
+    }
+    hookTouch('t_u', 'ArrowUp');
+    hookTouch('t_d', 'ArrowDown');
+    hookTouch('t_l', 'ArrowLeft');
+    hookTouch('t_r', 'ArrowRight');
+    hookTouch('t_a', 'Enter');
+    hookTouch('t_j', 'KeyZ');
+    hookTouch('t_c', 'KeyC');
+    hookTouch('t_v', 'KeyV');
+    hookTouch('t_p', 'Escape');
+    hookTouch('t_m', 'KeyM');
+});
 
 // GAMEPAD
 let currentGamePadId = 0;
@@ -52,7 +100,7 @@ let vertical = () =>
     ((pressed['ArrowDown'] || pressed['KeyS'] || getGamePad()?.axes[1] > 0.4 || pressed['DPadDown']) ? -1 : 0);
 let recent = (f) => (Date.now() - pressed[f]) < 100;
 let jump = () => recent('KeyZ') || recent('Space') || recent('PadSouth');
-let attack = () => recent('KeyX') || recent('KeyJ') || recent('PadWest');
+let attack = () => recent('KeyX') || recent('Enter') || recent('MouseLeft') || recent('PadWest');
 let dash = () => recent('KeyC') || recent('KeyK') || recent('PadEast') || recent('PadLTrigger');
 let ignite = () => recent('KeyV') || recent('KeyL') || recent('PadNorth');
 let holdingJump = () => pressed['KeyZ'] || pressed['Space'] || pressed['PadSouth'];

@@ -1,9 +1,12 @@
 import * as bus from './bus'
 import { clamp } from './utils';
-import { EVENT_ATTACK, EVENT_ATTACK_HIT, EVENT_BONE_COLLECT, EVENT_BONE_DINK, EVENT_DASH, EVENT_FIREBALL, EVENT_FLAP, EVENT_FOCUS, EVENT_FOCUS_STOP, EVENT_JUMP, EVENT_PLAYER_ABILITY_GRANT, EVENT_PLAYER_CHECKPOINT, EVENT_PLAYER_HIT, EVENT_REGION, EVENT_SWITCH, EVENT_WALK, EVENT_WEB_BOING } from './events';
+import { EVENT_ATTACK, EVENT_ATTACK_HIT, EVENT_BONE_COLLECT, EVENT_BONE_DINK, EVENT_DASH, EVENT_FIREBALL, EVENT_FLAP, EVENT_FOCUS, EVENT_FOCUS_STOP, EVENT_JUMP, EVENT_PLAYER_ABILITY_GRANT, EVENT_PLAYER_CHECKPOINT, EVENT_PLAYER_HIT, EVENT_REGION, EVENT_SWITCH, EVENT_WALK, EVENT_WEB_BOING, EVENT_SET_VOLUME } from './events';
+
+let audioCtx;
+let sampleRate;
 
 function Audio() {
-    audioCtx = new AudioContext();
+    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
     sampleRate = audioCtx.sampleRate;
 
     // Sounds to be loaded on init
@@ -29,6 +32,7 @@ function Audio() {
     let activeMusicSource;
     let gainNodeA;
     let gainNodeB;
+    let masterGainNode;
     let focusNode;
     let usingA = true;
 
@@ -150,8 +154,9 @@ function Audio() {
         setProgress(0.8);
         const song4 = await genericSongBuilder([[0, 2, 3, 7, 8, 12], 1.2], 3, 0.7, 0.85);
         setProgress(0.9);
-        const song5 = await genericSongBuilder([[0, 4, 5, 7, 12], 0.8], 4, 0.85, 0.99);
-        setProgress(0.99);
+        const song5 = await genericSongBuilder([[0, 4, 5, 7, 12], 0.8], 4, 0.85, 1.0);
+        setProgress(1.0);
+        console.log("Generated song 5 and set progress 1.0");
         musicRegionBuffers = [song1, song2, song3, song4, song5];
 
         // bus events
@@ -170,7 +175,7 @@ function Audio() {
         bus.on(EVENT_FOCUS, () => {
             focusNode = audioCtx.createBufferSource();
             focusNode.buffer = musicFocusBuffer;
-            focusNode.connect(audioCtx.destination);
+            focusNode.connect(masterGainNode);
             focusNode.start(); 
         });
         bus.on(EVENT_FOCUS_STOP, () => focusNode.stop());
@@ -179,10 +184,18 @@ function Audio() {
         bus.on(EVENT_WEB_BOING, play(boingSound));
         
         // crossfade gain nodes
-        gainNodeA = new GainNode(audioCtx);
-        gainNodeA.connect(audioCtx.destination);
-        gainNodeB = new GainNode(audioCtx);
-        gainNodeB.connect(audioCtx.destination);
+        masterGainNode = audioCtx.createGain();
+        masterGainNode.connect(audioCtx.destination);
+        gainNodeA = audioCtx.createGain();
+        gainNodeA.connect(masterGainNode);
+        gainNodeB = audioCtx.createGain();
+        gainNodeB.connect(masterGainNode);
+
+        bus.on(EVENT_SET_VOLUME, (h) => {
+            const v = Math.min(Math.max(masterGainNode.gain.value + h, 0), 1);
+            masterGainNode.gain.value = v;
+        });
+        console.log("audio.js init absolutely completed!");
     }
 
     async function genericSongBuilder([melodySignature, beat], seed, prog1, prog2) {
@@ -229,7 +242,7 @@ function Audio() {
                     saw(i / (4.03 * 6*(2**(-note/12))*2)) * 7;
                 buffer[baseIdx + i] += v * Math.min(envelope * Math.exp(-envelope * (10 + amp * 7)) * 100, 1) / 500;
             }
-            await _yield();
+            if (i % 8 === 0) { await _yield(); }
             setProgress(prog1 + (prog2 - prog1) * (i/song.length) * 0.8);
         }
         for (let q = 0; q < 44; q+=2) {
@@ -242,7 +255,7 @@ function Audio() {
                     buffer[k + startOffset] += drumBuffer[k + noteOffset];
                 }
             }
-            await _yield();
+            if (q % 8 === 0) { await _yield(); }
             setProgress(prog1 + (prog2 - prog1) * (0.8 + 0.2 * (q/44)));
         }
         return targetBuffer;
@@ -252,7 +265,7 @@ function Audio() {
         return () => {
             let source = audioCtx.createBufferSource();
             source.buffer = audioBuffer;
-            source.connect(audioCtx.destination);
+            source.connect(masterGainNode);
             source.start();
         }
     };
