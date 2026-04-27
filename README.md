@@ -7,6 +7,12 @@
   <p><i>TAMPILAN AWAL</i></p>
 </div>
 
+
+![GitHub repo size](https://img.shields.io/github/repo-size/lamberthrumpaidus/Rubaka?style=for-the-badge&color=gold)
+![GitHub last commit](https://img.shields.io/github/last-commit/lamberthrumpaidus/Rubaka?style=for-the-badge&color=accent)
+![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
+
+
 **Rubaka** adalah **game aksi-platformer** yang membawa pemain ke dalam dunia mitologis yang misterius dan penuh tantangan. Kumpulkan tulang, hadapi musuh beragam, dan jelajahi biome yang unik untuk mencapai skor tertinggi dan mengukir namamu di puncak!
 
 ## 🎮 Fitur Utama
