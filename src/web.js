@@ -16,7 +16,7 @@ function Web(x, y) {
     const webMesh = [
         ['#fff', 4, 0]
     ];
-    // build a procedural web
+    
     const angles = [];
     const rads = [];
     for (let i = 0; i < 8; i++) {
@@ -49,7 +49,7 @@ function Web(x, y) {
 
     function render(ctx) {
         if (burnup) {
-            // Darken
+            
             const p = 1-burntime;
             const w = Math.max(255 - 1000 * burntime, 0);
             webMesh[0][0] = `rgb(${w},${w},${w})`;
@@ -79,7 +79,7 @@ function Web(x, y) {
             omx = 10;
             if (flames && !burnup) {
                 burnup = true;
-                // Flames
+                
                 for (let i = 0; i < 18; i++) {
                     setTimeout(() => {
                         bus.emit(EVENT_SFX_FLAME, [

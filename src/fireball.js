@@ -25,7 +25,7 @@ function Fireball(x, y, dir) {
             flame.end();
             return true;
         }
-        // TBD if this can be less aggressive
+        
         bus.emit(EVENT_ATTACK, [myHitbox, dir, self, true]);
         let onRight, onLeft;
         [,,, onRight, onLeft,] = physicsCheck(myHitbox);

@@ -34,7 +34,7 @@ export default function ParticleEmit(x, y, count, color, speedScale = 1) {
             update(dT) {
                 this.x += this.vx * dT;
                 this.y += this.vy * dT;
-                this.vy += 800 * dT; // gravity
+                this.vy += 800 * dT; 
                 this.life -= dT;
                 return this.life <= 0;
             },
@@ -42,13 +42,13 @@ export default function ParticleEmit(x, y, count, color, speedScale = 1) {
                 ctx.globalCompositeOperation = 'lighter';
                 ctx.globalAlpha = this.life;
                 
-                // Draw a small glowing circle instead of a square
+                
                 ctx.drawImage(getGlowImage(this.c), this.x - 15, this.y - 15);
                 
                 ctx.globalAlpha = 1;
                 ctx.globalCompositeOperation = 'source-over';
             },
-            order: 100 // render on top
+            order: 100 
         });
     }
     particles.map(p => add(p));

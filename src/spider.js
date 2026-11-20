@@ -81,7 +81,7 @@ function Spider(x, y, type) {
         [x, y, onGround, onRightWall, onLeftWall, onRoof] = physicsCheck(enemyHitbox);
 
         [hasRight, hasLeft] = groundCheck(enemyHitbox, wx * 1.3 * size, wy * 1.3 * size);
-        // TODO: optimize
+        
         if (modalityX) {
             if (!hasRight) { targetFacing = -1; }
             if (!hasLeft) { targetFacing = 1; }
@@ -157,7 +157,7 @@ function Spider(x, y, type) {
             const dx = needJump ? (-10 + 40 * charging * charging) * facing : 0;
             const pBodyP = (Math.cos(a/2) / 15) * walking + wa + jumping * facing;
 
-            // Leg animation
+            
             for (let i = 0; i < 4; i++) {
                 const s = i % 2 ? 1 : -1;
                 const p = legPhase[i];

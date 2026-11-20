@@ -8,8 +8,8 @@ import { boneMeshAsset } from './assets';
 import { EVENT_BONE_COLLECT, EVENT_BONE_DINK } from './events';
 import { TAG_PHYSICS, TAG_PLAYER } from './tags';
 
-// t=1 -> value = 1
-// t=2 -> value = 10
+
+
 function Bone(x, y, vx, vy, t=1) {
     let anim = Math.random() * 7;
     let phase = Math.random() * 7;

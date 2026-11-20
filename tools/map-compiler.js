@@ -80,7 +80,7 @@ function checkErrors(humanNameCount) {
         nameCount[value[0]] = value[1];
     }
     for (const value of Object.values(humanNameCount)) {
-        // console.log(value);
+        
         const name = value[0];
         const count = value[1];
         const type = name.split(' ')[0];
@@ -142,7 +142,7 @@ module.exports = {
         let entryId = 0;
         let uniqueEntries = {};
 
-        // Parse it
+        
         let png = PNG.sync.read(originalMapData, {
             filterType: 0,
             colorType: 0,
@@ -173,7 +173,7 @@ module.exports = {
         let uniqueEntries = {};
         let humanNameCount = {};
 
-        // Parse it
+        
         let png = PNG.sync.read(originalMapData, {
             filterType: 0,
             colorType: 0,
@@ -182,7 +182,7 @@ module.exports = {
             deflateChunkSize: 256
         });
 
-        // Process walls
+        
         const data = png.data;
         for (let y = 0; y < png.height; y++) {
             for (let x = 0; x < png.width; x++) {
@@ -204,7 +204,7 @@ module.exports = {
         printStats(humanNameCount);
         console.log(`** Map unique entries = ${Object.keys(uniqueEntries).length} **`);
 
-        // Remap to grayscale
+        
         for (let y = 0; y < png.height; y++) {
             for (let x = 0; x < png.width; x++) {
                 const idxBase = (png.width * y + x)

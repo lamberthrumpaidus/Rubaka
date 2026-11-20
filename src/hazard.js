@@ -59,7 +59,7 @@ function Hazard(x, y, t) {
     } else {
       renderMesh(spikeMesh, x + dx, y + dy, 0, 0, dA);
     }
-    // Hack this in the render loop to save some bytes, ideally in update.
+    
     enemyHitbox.x = x + dx;
     enemyHitbox.y = y + dy;
   }

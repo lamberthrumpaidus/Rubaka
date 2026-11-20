@@ -27,15 +27,15 @@ function Map() {
     const themeLookup = {};
 
     async function generate() {
-        // Extract map data
+        
         W = terrain.width; H = terrain.height;
         data = Array.from(terrain.data);
 
-        // Prepare minimap
+        
         m.width = m.height = 128;
         minimapCtx = m.getContext('2d');
 
-        // Entity placements
+        
         forXY((x, y) => {
             const V = get(x, y);
             const entityClass = LOOKUP[V*2];
@@ -44,12 +44,12 @@ function Map() {
                 add(entityClass(x * BLOCK_SIZE, y * BLOCK_SIZE, entityData));
             }
 
-            // compute theme avg
+            
             themeLookup[x] = themeLookup[x] || {};
             themeLookup[x][y] = computeTheme(x, y);
         });
 
-        // Merge walls vertically
+        
         const vertMap = {};
         forXY((x, y) => {
             const V = get(x, y) << 1;
@@ -67,7 +67,7 @@ function Map() {
             }
         });
 
-        // Merge walls horizontally
+        
         const horizMap = {};
         forXY((x, y) => {
             const vm = vertMap[x+','+y];
@@ -84,13 +84,13 @@ function Map() {
                     horizMap[q+','+y] = true;
                     q++;
                 }
-                // scan adjacent surface nodes and mark them for skipping
+                
                 let o = outlineFinder(x, y, q, vm[1]);
                 add(Wall(x, y, q, vm[1], o, BLOCK_SIZE, WALL_MAP[vm[2]]));
             }
         });
 
-        // Place decorations
+        
         forXY((x, y) => {
             const V = WALL_MAP[get(x, y) << 1];
             if (V && !get(x, y-1) && Math.cos(x*1321+y*2831) > 0.5) {
@@ -180,7 +180,7 @@ function Map() {
         const t = themeLookup[parseInt(x)]?.[parseInt(y)];
         if (t) {
             themeData = t;
-            // Pure theme change detection
+            
             if (t[6] && exactTheme != t[6]) {
                 bus.emit(EVENT_REGION, WALL_MAP[t[6]][9]);
                 exactTheme = t[6];
@@ -195,21 +195,21 @@ function Map() {
             const x = parseInt(cam.x/100 + q % 15 - 7);
             const y = parseInt(cam.y/100) + parseInt(q / 15) - 4;
             const V = get(x, y) << 1;
-            // Find walls
+            
             if (WALL_MAP[V] && x < 125) { d(x, y, WALL_MAP[V][0]); }
-            // Find treasure
+            
             if (LOOKUP[V] == Treasure) { d(x, y, '#ff0'); }
-            // Find Web
+            
             if (LOOKUP[V] == Web) { [0,1].map((v)=>d(x, y-v, '#24f')); }
-            // Find Gate
+            
             if (LOOKUP[V] == Gate) { [0,1,2].map((v)=>d(x, y-v, '#24f')); }
         }
     }
 
-    // Draw on minimap
+    
     function d(x,y,c) {
         minimapCtx.fillStyle=c;
-        // Write it to the minimap, then erase it from the datastore
+        
         data[(x + y * W)*4 + 2] = 0;
         if (c) {
             minimapCtx.fillRect( x, y, 1, 1 );

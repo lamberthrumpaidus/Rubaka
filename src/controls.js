@@ -23,7 +23,7 @@ function updateGameControls() {
     Object.entries(GAMEPAD_BUTTON_MAP).map(([btn, code]) => mapPadToKey(gp?.buttons[btn], code));
 }
 
-// KEYBOARD & MOUSE
+
 onkeydown = (evt) => {
     if (!pressed[evt.code]) {
         pressed[evt.code] = Date.now();
@@ -109,7 +109,7 @@ window.addEventListener('load', () => {
     hookTouch('t_m', 'KeyM');
 });
 
-// GAMEPAD
+
 let currentGamePadId = 0;
 window.addEventListener('gamepadconnected', (e) => {
     currentGamePadId = e.gamepad.index;

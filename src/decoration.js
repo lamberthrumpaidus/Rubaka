@@ -16,7 +16,7 @@ function Decoration(x, y, t) {
     let scale = 1;
     let flip = Math.random() > 0.5 ? 1 : -1;
 
-    // TORCH
+    
     if (t == 0) {
         shapeMeshes.push([
             ['#445', 8, 0],
@@ -26,7 +26,7 @@ function Decoration(x, y, t) {
             [0, 50, 0, 15]
         ]);
     }
-    // BONES
+    
     if (t == 1) {
         shapeMeshes.push([
             ['#ccc', 7, 0],
@@ -43,7 +43,7 @@ function Decoration(x, y, t) {
         ]);
         scale = Math.random() * 0.5 + 0.6;
     }
-    // GRASS
+    
     if (t == 2) {
         shapeMeshes.push([
             ['#5a5', 6, 0],
@@ -60,7 +60,7 @@ function Decoration(x, y, t) {
         ]);
         scale = Math.random() * 0.5 + 0.7;
     }
-    // TOTEM
+    
     if (t == 3) {
         shapeMeshes.push([
             ['#bb8', 6, 0],
@@ -111,7 +111,7 @@ function Decoration(x, y, t) {
     }
 
     function hitCheck([attackHitbox,, owner, projectile]) {
-        // Decorations do not stop projectiles
+        
         if (!projectile && !isHit && myHitbox.isTouching(attackHitbox)) {
             bus.emit(EVENT_ATTACK_HIT, [owner]);
             isHit = true;

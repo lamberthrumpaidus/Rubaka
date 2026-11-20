@@ -16,19 +16,19 @@ import { canvas, renderMesh, scaleInPlace } from './canvas';
 
 const gameMap = Map();
 async function initialize() {
-    // Loading
+    
     bus.off(EVENT_ANY_KEY, initialize);
     const h1 = document.getElementsByTagName('h1')[0];
     bus.on('load-progress', (p) => {
         h1.innerText=`Loading... (${parseInt(p * 100)}%)`;
     });
 
-    // Adjust UI elements
+    
     document.getElementsByTagName('h2')[0].innerHTML = '&nbsp;';
     h1.innerText='Loading...';
     await new Promise((r) => setTimeout(r, 100));
 
-    // load audio and remove ui after
+    
     console.log("Audio init starting");
     const audio = Audio();
     await audio.init();
@@ -39,7 +39,7 @@ async function initialize() {
     if (h3) h3.remove();
     console.log("UI removed!");
     
-    // Load the game scene
+    
     loadProgress();
     clear();
     console.log("Generating game map...");
@@ -48,13 +48,13 @@ async function initialize() {
     [gameMap, Camera(), HUD()].map(add);
 
 
-    // FOR DEVELOPMENT
-    // getObjectsByTag(TAG_PLAYER)[0].grant(0);
-    // getObjectsByTag(TAG_PLAYER)[0].grant(1);
-    // getObjectsByTag(TAG_PLAYER)[0].grant(2);
-    // getObjectsByTag(TAG_PLAYER)[0].grant(3);
+    
+    
+    
+    
+    
 
-    // Game events
+    
     bus.on(EVENT_FIREBALL, ([x, y, dir]) => add(Fireball(x, y, dir)));
     bus.on(EVENT_SFX_FLAME, ([x, y, s, t]) => add(FlameSFX(x, y, s, t)));
     bus.on(EVENT_BONE_SPAWN, ([x,y,N,t]) => { 
@@ -85,7 +85,7 @@ async function initialize() {
             bus.emit(EVENT_CHEAT_REVOKE);
         }
         input.value = '';
-        togglePause(); // Resume game after cheat
+        togglePause(); 
     };
 
     window.addEventListener('keydown', (e) => {
@@ -110,7 +110,7 @@ function mainMenu() {
         return;
     }
 
-    // Floaty head
+    
     add({
         anim: 0,
         update: function(dT) {

@@ -29,7 +29,7 @@ function physicsCheck(myHitbox) {
     getObjectsByTag(TAG_PHYSICS).map(({ physics }) => {
         if (window.lamCheat && myHitbox.isPlayer && (physics.isGate || physics.isWeb)) return;
         if (myHitbox.isTouching(physics)) {
-            // Sides
+            
             let onThisWall = false;
             if (y + myHitbox.oy + 10 < physics.y + physics.h && y + myHitbox.oy + myHitbox.h - 10 > physics.y) {
                 if (x-10 < physics.x) {
@@ -44,12 +44,12 @@ function physicsCheck(myHitbox) {
                 }
             }
             if (!onThisWall) {
-                // Falling to hit top of surface
+                
                 if (y - 45 < physics.y) {
                     y = physics.y + physics.oy - myHitbox.oy - myHitbox.h + 0.1;
                     onGround = true;
                 }
-                // Hit head on bottom of surface
+                
                 if (y + myHitbox.oy + myHitbox.h/2 > physics.y + physics.h) {
                     y = physics.y + physics.oy + physics.h - myHitbox.oy + 0.1;
                     onRoof = true;

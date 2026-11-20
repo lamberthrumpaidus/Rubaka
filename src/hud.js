@@ -43,7 +43,7 @@ function HUD() {
 
     function render(ctx) {
         retainTransform(() => {
-            // Render minimap
+            
             if (holdingMap()) {
                 ctx.setTransform(1, 0, 0, 1, 0, 0);
                 ctx.fillStyle = 'rgba(0,0,0,0.7)';
@@ -58,7 +58,7 @@ function HUD() {
             }
 
             ctx.setTransform(0.8, 0, 0, 0.8, 0, 0);
-            // Render HP
+            
             for (let i = 0; i < 3; i++) {
                 if (i >= getHp()) {
                     headMesh[0][0] = headMesh[3][0] = '#555';
@@ -69,11 +69,11 @@ function HUD() {
                 renderMesh(headMesh, 50 + i * 55, 72, 0, 0, 0);
             }
 
-            // Render Bone count
+            
             renderMesh(boneMesh, 50, 144, 0, -regionTitleTimer, 0);
             renderText(getBones(), 80, 146, 30);
 
-            // Region Title
+            
             if (regionTitleTimer > 0) {
                 ctx.globalAlpha = clamp(regionTitleTimer, 0, 1) * clamp(-regionTitleTimer + totalTime, 0, 1);
                 ctx.lineWidth = 18;
@@ -95,7 +95,7 @@ function HUD() {
                 ctx.globalAlpha = 1;
             }
 
-            // Render Treasure count
+            
             renderText(`${getTreasures()} / ${getTotalNumTreasure()}`, 80, 103, 30);
             scaleInPlace(0.5, 50, 102);
             renderMesh(treasureMesh, 50, 120, 0, 0, 0, '#742');
@@ -111,7 +111,7 @@ function HUD() {
                 ctx.textAlign = 'left';
             }
 
-            // Fade in initial
+            
             if (fadeIn < 2) {
                 ctx.setTransform(1, 0, 0, 1, 0, 0);
                 ctx.fillStyle = `rgba(0,0,0,${1 - fadeIn * fadeIn / 4})`;

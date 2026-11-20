@@ -10,8 +10,8 @@ import { foundTreasure, getTotalNumTreasure, setTotalNumTreasure } from './games
 import { getObjectsByTag } from './engine';
 import { TAG_MAP } from './tags';
 
-// Bone Values -> 20, 50, 100
-// Hp -> 3, 6, 9 (1 bone each)
+
+
 
 function Treasure(x, y, t) {
     y += 50;

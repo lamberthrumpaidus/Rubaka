@@ -7,11 +7,11 @@ let treasures = 0;
 let totalTreasures = 0;
 
 function saveProgress() {
-    // Disabled
+    
 }
 
 function loadProgress() {
-    // Disabled
+    
 }
 
 function addHp(h) { hp += h; }

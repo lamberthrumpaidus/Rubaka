@@ -46,7 +46,7 @@ function Camera(x, y) {
             if (py > y + H) { ty = py - H; }
         }
 
-        // Should technically be in the render loop
+        
         const m = getObjectsByTag(TAG_MAP)[0];
         const themeData = m.getTheme(x/100, y/100);
         for (let i = 0; i < 3; i++) {

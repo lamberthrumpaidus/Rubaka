@@ -87,7 +87,7 @@ function Skeleton(x, y, type) {
 
             const pBodyP = (Math.cos(a) / 20) * walking - facing * injured * 0.3;
 
-            // Leg animation
+            
             legMesh[1][0] = Math.cos(a) * 8 * facing * walking;
             legMesh[1][1] = Math.min(0, Math.sin(a)) * 4 * walking;
             legMesh[1][4] = Math.cos(a+3) * 8 * facing * walking;

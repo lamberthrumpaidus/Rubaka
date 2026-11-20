@@ -31,12 +31,12 @@ function Player(x, y) {
     let walkTick = 0;
     let invincibleTimer = 0;
 
-    // Climbing
+    
     let isClimbingWall = false;
-    let unstick = 0; // Disallow sticking while positive
-    let stick = 0; // How long have you been stuck to the wall
+    let unstick = 0; 
+    let stick = 0; 
 
-    // Basic attack
+    
     let smoothAttacking = 0;
     let attackSwipe = 2;
     let attackSwipe2 = 2;
@@ -45,17 +45,17 @@ function Player(x, y) {
     let attackSeq = 0;
     let MAX_NUM_ATTACK = 3;
 
-    // Dash
+    
     let dashTimer = 1;
     let dashing = false;
-    let canDash = false; // can you dash right now? (grounded or walled)
-    let hasDash = false; // was ability learned yet?
+    let canDash = false; 
+    let hasDash = false; 
 
-    // Fireball attack
+    
     let fireballTime = 0;
     let hasFlame = false;
 
-    // Air jump
+    
     let numAirjumpsUsed = 0;
     let airJump = 0;
     let smoothAirjump = 0;
@@ -66,10 +66,10 @@ function Player(x, y) {
     const TERMINAL_VELOCITY = 800;
     const CLIMB_SPEED = 370;
 
-    // True allows using fireball and dash from wall
+    
     let allowWallAbilities = false;
 
-    // Head with no horns
+    
     let headMesh = copy(headMeshAsset);
     headMesh[1].pop(); headMesh[1].pop();
     headMesh[1].shift(); headMesh[1].shift();
@@ -107,7 +107,7 @@ function Player(x, y) {
     const WING_FILL = 'rgba(230,100,70,0.5)';
 
     function grant(ability) {
-        // Dash
+        
         if (ability == 0) {
             hasDash = true;
             headMesh = copy(headMeshAsset);
@@ -115,17 +115,17 @@ function Player(x, y) {
                 headMesh[3][0] = '#fd0';
             }
         }
-        // Claws
+        
         if (ability == 1) {
             hasClaws = true;
             handMesh.pop();handMesh.pop();handMesh.pop();
             handMesh.push(['#def', 3, 0], [18, 5, 25, 8], [15, 9, 22, 13]);
         }
-        // Flame
+        
         if (ability == 2) {
             hasFlame = true;
         }
-        // Wings
+        
         if (ability == 3) {
             MAX_NUM_AIRJUMP = 1;
             wingMesh.push([0, 0, -20, -10, -50, -5, -55, 15, -25, 6, -40, -5, -25, 6, -20, -10, -25, 6, 0, 4]);
@@ -144,7 +144,7 @@ function Player(x, y) {
         fireballTime += dT;
         dashTimer += dT;
 
-        // Horizontal movement
+        
         const h = horizontal();
         let v = vertical();
         const requestAttack = attack();
@@ -157,7 +157,7 @@ function Player(x, y) {
             attackTime = 0.0;
             canDash = false;
             if (isClimbingWall && allowWallAbilities) {
-                // Dash away from wall (if applicable)
+                
                 targetFacing *= -1;
                 facing = targetFacing;
                 vx = targetFacing * 1000;
@@ -170,17 +170,17 @@ function Player(x, y) {
             bus.emit(EVENT_DASH);
         }
 
-        // If wall-climbing, respect horizontal control as "up"
+        
         if (isClimbingWall && Math.abs(v) < 0.3 && (Math.abs(h) > 0.3 && Math.sign(h) == Math.sign(facing))) {
             v = 1;
         }
 
-        // Wall physics
+        
         let onGround, onRightWall, onLeftWall, onRoof;
         [x, y, onGround, onRightWall, onLeftWall, onRoof] = physicsCheck(playerHitbox);
         let onWall = (onRightWall && facing > 0) || (onLeftWall && facing < 0);
 
-        // Disallow sticking to wall during timeout period
+        
         if (onWall && unstick >= 0) {
             onWall = false;
         }
@@ -200,7 +200,7 @@ function Player(x, y) {
         }
 
         if (!isClimbingWall) {
-            // Default controls
+            
             if (!dashing) {
                 if (Math.abs(h) > 0.3) {
                     if (attackTime > 0.2) {
@@ -224,7 +224,7 @@ function Player(x, y) {
                 }
             }
 
-            // Attack
+            
             if (requestAttack && (attackTime > 0.18 || window.lamCheat) && (attackSeq < MAX_NUM_ATTACK || window.lamCheat)) {
                 if (attackHandFlag) {
                     attackSwipe = 0;
@@ -243,7 +243,7 @@ function Player(x, y) {
                 attackSeq = 0;
             }
             
-            // Fireball
+            
             if (requestFireball && (fireballTime > 1 || window.lamCheat) && hasFlame) {
                 fireballTime = 0;
                 attackTime = 0;
@@ -253,7 +253,7 @@ function Player(x, y) {
                 bus.emit(EVENT_FIREBALL, [x, y-30, targetFacing]);
             }
         } else {
-            // Climbing controls
+            
             numAirjumpsUsed = 0;
             if (Math.abs(v) > 0.3) {
                 y -= CLIMB_SPEED * Math.sign(v) * dT * Math.min(stick * 6, 1);
@@ -268,7 +268,7 @@ function Player(x, y) {
                 climbAnim -= Math.sin(climbAnim) * 15 * dT;
             }
 
-            // Fireball from wall
+            
             if (allowWallAbilities && requestFireball && (fireballTime > 1 || window.lamCheat) && hasFlame) {
                 fireballTime = 0;
                 facing = -targetFacing;
@@ -279,7 +279,7 @@ function Player(x, y) {
 
         if (jump() && timeSinceJump > 0.15) {
             if (!isClimbingWall) {
-                // Default jump
+                
                 if (groundTime > 0) {
                     vy = -1000;
                     timeSinceJump = 0;
@@ -287,7 +287,7 @@ function Player(x, y) {
                     dashing = false;
                     bus.emit(EVENT_JUMP);
                 } else if (numAirjumpsUsed < MAX_NUM_AIRJUMP || window.lamCheat) {
-                    // Air jump
+                    
                     numAirjumpsUsed += 1;
                     airJump = 1;
                     vy = -1000;
@@ -299,7 +299,7 @@ function Player(x, y) {
                     bus.emit(EVENT_FLAP);
                 }
             } else {
-                // Wall Jumping
+                
                 vy = -1000;
                 vx = -facing * 300;
                 unstick = 0.1;
@@ -313,7 +313,7 @@ function Player(x, y) {
         }
 
         if (!onWall) {
-            // If not on the wall while moving up, pop upward
+            
             if (isClimbingWall && (v > 0.3 || vy < -0.3)) {
                 vy = -CLIMB_SPEED * 1.4;
                 vx = facing * 300;
@@ -322,11 +322,11 @@ function Player(x, y) {
             isClimbingWall = false;
         }
         else if (onGround && isClimbingWall) {
-            // Touching ground while climbing should release climb
+            
             isClimbingWall = false;
         }
         else if (onWall && !onGround && (attackTime > 0.3 || dashing) && hasClaws) {
-            // Touching wall and no ground should enter climbing mode
+            
             isClimbingWall = true;
             if (dashTimer < 0.7) { dashTimer = 0.7; }
             dashing = false;
@@ -334,7 +334,7 @@ function Player(x, y) {
             vx = 0;
         }
         else if (onWall && onGround && v > 0.3 && hasClaws) {
-            // Trying to moving up on wall from ground should engage climbing
+            
             isClimbingWall = true;
             if (dashTimer < 0.7) { dashTimer = 0.7; }
             dashing = false;
@@ -345,7 +345,7 @@ function Player(x, y) {
 
         if (isClimbingWall) {
             canDash = true;
-            // Wall climb physics
+            
             if (vy >= 0) {
                 vy -= 20 * vy * dT;
                 climbAnim += vy / 10 * dT;
@@ -354,7 +354,7 @@ function Player(x, y) {
                 climbAnim += -vy / 10 * dT;
             }
         } else {
-            // Default physics
+            
             if (attackTime < 0.2) {
                 vy += 1000 * dT;
             } else if (groundTime <= 0.1 || vy < 0) {
@@ -367,11 +367,11 @@ function Player(x, y) {
             stick = 0;
         }
 
-        // Enemy collision checks
+        
         getObjectsByTag(TAG_ENEMY).map(({ enemyHitbox }) => {
             if (isDead || dashTimer < 0.3) { return; }
             if (playerHitbox.isTouching(enemyHitbox) && injured <= 0 && attackTime > 0.15) {
-                if (invincibleTimer > 0 || window.lamCheat) return; // CHEAT: KEBAL
+                if (invincibleTimer > 0 || window.lamCheat) return; 
                 injured = 1;
                 attackTime = 0;
                 vx = Math.sign(x - enemyHitbox.x - enemyHitbox.w/2) * 1100;
@@ -391,7 +391,7 @@ function Player(x, y) {
             }
         });
 
-        // DASH
+        
         if (dashing) {
             if (dashTimer < 0.27) {
                 vx = targetFacing * 4800 * (0.33 - dashTimer);
@@ -414,7 +414,7 @@ function Player(x, y) {
         smoothAttacking += (((attackTime < 0.35) ? 1 : 0) - smoothAttacking) * 17 * dT;
         smoothAirjump += (airJump - smoothAirjump) * 17 * dT;
         
-        // Smoother player physics to avoid clipping
+        
         playerHitbox.x = x;
         playerHitbox.y = y;
         for (let i = 0; i < 3; i++) {
@@ -524,7 +524,7 @@ function Player(x, y) {
             (Math.sin(climbAnim*1.2) * 0.15 - 0.2) * climbing +
             (attackSwipeTiming * 0.5 - attackSwipeTiming2 * 0.5) * attacking;
 
-        // Back swipe render
+        
         const swipe1 = (facing > 0) ? attackSwipePre : attackSwipePre2;
         const swipe2 = (facing > 0) ? attackSwipePre2 : attackSwipePre;
         retainTransform(() => {
@@ -544,11 +544,11 @@ function Player(x, y) {
             }
         });
 
-        // Body animation
+        
         bodyMesh[1][0] = 10 * heading * notAttack - 7 * climbing * facing + 15 * attacking * facing;
         bodyMesh[1][1] = -37 * idle * notAttack - 23 * (running * notAttack + attacking) - 35 * climbing;
 
-        // Leg animation
+        
         bodyMesh[2][2] =
             (7 * idle + (Math.cos(a) * 7 - 4) * heading) * notJumping * notClimbing +
             (5 + tailWhip/50) * jumping * facing * notClimbing +
@@ -566,7 +566,7 @@ function Player(x, y) {
             (2 - tailWhip/70) * jumping * notClimbing +
             (9 * Math.cos(climbAnim+3) * facing - 8) * climbing;
 
-        // Tail animation while running
+        
         tailMesh[1][3] = Math.cos(a) + 31-37-tailWhip/50;
         tailMesh[1][5] = Math.cos(a + 1) + 31-37-tailWhip/40;
         tailMesh[1][6] = -32-Math.abs(tailWhip/290);
@@ -574,7 +574,7 @@ function Player(x, y) {
         tailMesh[1][8] = -34+tailWhip/70;
         tailMesh[1][9] = Math.cos(a + 3) + 15-37-tailWhip/20;
 
-        // Render layers of mesh
+        
         if (injured > 0.1) {
             ctx.globalAlpha = Math.cos(injured*50) > 0 ? 0.2 : 1;
         }
@@ -600,7 +600,7 @@ function Player(x, y) {
         ctx.globalAlpha = 1;
 
         retainTransform(() => {
-            // Front swipe render
+            
             color(hasClaws ? '#3af' : '#999');
             ctx.translate(x, y);
             if (facing < 0) {
@@ -616,7 +616,7 @@ function Player(x, y) {
                 ctx.stroke();
             }
 
-            // Dash trail
+            
             if (dashTimer < 0.24) {
                 ctx.translate(-120, 0);
                 color('#eee');

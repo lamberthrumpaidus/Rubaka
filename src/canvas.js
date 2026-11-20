@@ -56,7 +56,7 @@ function retainTransform(fn) {
     ctx.setTransform(xfm);
 }
 
-// Favicon
+
 const favicon = document.createElement('canvas');
 favicon.width = favicon.height = 64;
 ctx = favicon.getContext('2d');
