@@ -27,7 +27,7 @@ jobs:
           import pathlib,re,subprocess
           root=pathlib.Path('.')
           skipped={'node_modules','dist','.git','.github','vendor','third_party','build'}
-          files=[p for p in root.rglob('*') if p.is_file() and not(set(p.parts)&skipped))]
+          files=[p for p in root.rglob('*') if p.is_file() and not(set(p.parts)&skipped)]
           tested=0
           for p in files:
               if p.suffix.lower() in {'.js','.mjs','.cjs'}:
