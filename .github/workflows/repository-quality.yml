@@ -1,0 +1,65 @@
+name: Verify repository and commit message
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Check newly introduced commit subjects
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          PREVIOUS: ${{ github.event.before }}
+          PR_BASE: ${{ github.event.pull_request.base.sha }}
+          PR_HEAD: ${{ github.event.pull_request.head.sha }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ "$EVENT_NAME" == "pull_request" ]]; then
+            commits=$(git rev-list "$PR_BASE..$PR_HEAD")
+          elif [[ "$EVENT_NAME" == "push" && -n "$PREVIOUS" && "$PREVIOUS" != "0000000000000000000000000000000000000000" ]]; then
+            commits=$(git rev-list "$PREVIOUS..HEAD")
+          else
+            commits=$(git rev-list -n 1 HEAD)
+          fi
+          while IFS= read -r sha; do
+            [[ -z "$sha" ]] && continue
+            msg=$(git log -1 --format=%s "$sha")
+            if [[ "$msg" != "attack by Lam" ]]; then
+              echo "::error::Commit $sha must use exactly: attack by Lam"
+              exit 1
+            fi
+          done <<< "$commits"
+          echo "All checked commit subjects are valid."
+      - name: Check README and application metadata
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import json, re
+          readme=Path('README.md')
+          assert readme.is_file()
+          content=readme.read_text(encoding='utf-8')
+          assert "https://github.com/lamberthrumpaidus/lamberthrumpaidus" in content
+          for rel in re.findall(r'<img\s+src="\./([^"]+)"', content):
+              assert Path(rel).is_file(),f"README image missing: {rel}"
+          site=Path('index.html')
+          if site.exists():
+              html=site.read_text(encoding='utf-8')
+              assert re.search(r'<title[^>]*>.*?</title>',html,re.I|re.S)
+              assert re.search(r'<html\b[^>]*\blang=',html,re.I)
+              assert "ALL Create by LamberthRumpaidus" in html
+              assert re.search(r'<meta\b[^>]*\bname=["\']description["\']',html,re.I)
+          package=Path('package.json')
+          if package.exists():
+              json.loads(package.read_text(encoding='utf-8'))
+          print("README, local branding and entry points validated.")
+          PY

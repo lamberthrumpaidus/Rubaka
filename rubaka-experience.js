@@ -1,3 +1,4 @@
+/* ALL Create by LamberthRumpaidus */
 (() => {
   const $$=id=>document.getElementById(id);
   const intro=$$("rb-intro");
