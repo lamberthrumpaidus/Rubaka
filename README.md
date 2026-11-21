@@ -33,7 +33,3 @@ npm run dev
 Pembaruan April 2026 menambahkan kontrol mobile yang lebih lengkap, penyesuaian kemampuan, optimasi efek partikel dan loading, serta pilihan kontrol serangan tambahan di desktop.
 
 </details>
-
----
-
-<p align="center"><sub>Created by <a href="https://github.com/lamberthrumpaidus/lamberthrumpaidus">Lamberth Rumpaidus</a></sub></p>
