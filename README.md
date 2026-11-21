@@ -1,35 +1,25 @@
 <div align="center">
-  <img src="./app-logo.svg" alt="Logo RUBAKA" width="90" />
+  <img src="./app-logo.svg" alt="Logo RUBAKA" width="88" />
   <h1>RUBAKA</h1>
-  <p>Petualangan aksi-platformer melalui dunia dengan tantangan dan musuh yang beragam.</p>
-  <p><a href="https://rubaka.netlify.app/">Mainkan game</a> · <a href="https://github.com/lamberthrumpaidus/lamberthrumpaidus">Profil L/R</a></p>
+  <p>Permainan aksi-platformer berbasis browser.</p>
+  <p><a href="https://rubaka.netlify.app/">Mainkan</a> · <a href="https://github.com/lamberthrumpaidus/lamberthrumpaidus">Profil utama</a></p>
 </div>
 
 ---
 
-### Tentang permainan
+## Tentang permainan
 
-Jelajahi biome berbeda, hadapi musuh, kumpulkan tulang, dan gunakan kemampuan yang terbuka selama permainan. RUBAKA menyediakan kontrol untuk desktop maupun perangkat sentuh.
+RUBAKA adalah permainan platformer yang menggabungkan eksplorasi area, pertarungan, dan pengumpulan item. Pemain mengendalikan karakter untuk melewati rintangan serta menghadapi musuh dalam beberapa lingkungan berbeda.
 
-**Fitur utama**
-- Sistem kesehatan, pertarungan, dan kemampuan karakter.
-- Area bertema *The Styx*, *Asphodel Meadows*, *Elysian Boneyard*, *Fields of Mourning*, dan *Throne Room*.
-- Kontrol sentuh, peta, jeda, serta dukungan aksi seperti lompat dan serangan.
+**Fitur:** kontrol desktop dan layar sentuh, sistem kesehatan, kemampuan karakter, peta, serta menu jeda.
 
-**Teknologi:** HTML · CSS · JavaScript
+**Teknologi:** HTML, CSS, dan JavaScript.
 
-### Menjalankan
-
-Gunakan <a href="https://rubaka.netlify.app/">versi browser</a> untuk bermain. Untuk pengembangan dari source code:
+## Pengembangan lokal
 
 ```bash
 npm install
 npm run dev
 ```
 
-<details>
-<summary>Catatan pengembangan</summary>
-
-Pembaruan April 2026 menambahkan kontrol mobile yang lebih lengkap, penyesuaian kemampuan, optimasi efek partikel dan loading, serta pilihan kontrol serangan tambahan di desktop.
-
-</details>
+Perintah tersebut menjalankan proses pengembangan yang ditetapkan dalam `package.json`. Untuk bermain tanpa menyiapkan lingkungan lokal, gunakan [versi web](https://rubaka.netlify.app/).
