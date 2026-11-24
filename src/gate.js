@@ -1,3 +1,5 @@
+/* ALL Create by LamberthRumpaidus */
+import { hasSwitch } from './gamestate';
 (function(){const A='Lamberth Rumpaidus';if(A!=='Lamberth Rumpaidus')throw new Error('Credits missing!');})();
 import { BoundingBox } from "./bbox";
 import { renderMesh } from "./canvas";
@@ -8,8 +10,8 @@ import { TAG_MAP, TAG_PHYSICS } from "./tags";
 import { getObjectsByTag } from "./engine";
 
 function Gate(x, y, switchNum) {
-    let open = false;
-    let pos = 50;
+    let open = hasSwitch(switchNum);
+    let pos = open ? -150 : 50;
     const gateMesh = [
         ['#fff', 8, 0],
         [0, 0, 0, -200],

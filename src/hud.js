@@ -1,3 +1,5 @@
+/* ALL Create by LamberthRumpaidus */
+import { getAbilities } from './gamestate';
 (function(){const A='Lamberth Rumpaidus';if(A!=='Lamberth Rumpaidus')throw new Error('Credits missing!');})();
 import * as bus from './bus';
 import { boneMeshAsset, headMeshAsset, regionTitles, treasureMeshAsset } from "./assets";
@@ -14,7 +16,7 @@ function HUD() {
     let regionTitleTimer;
     let totalTime;
     let fadeIn = 0;
-    let unlockedAbilities = {};
+    let unlockedAbilities=Object.fromEntries(getAbilities().map(a=>[a,true]));
 
     function syncButtons() {
         const t_c = document.getElementById('t_c');
@@ -36,7 +38,7 @@ function HUD() {
         fadeIn += dT;
         if (regionTitle && regionTitle.startsWith('VICTORY') && regionTitleTimer <= 0) {
             regionTitleTimer = 9999;
-            localStorage.setItem('autoStart', 'true');
+            /* Return to menu. */
             location.reload();
         }
     }
@@ -87,7 +89,7 @@ function HUD() {
                     ctx.textAlign = 'center';
                     ctx.fillStyle = '#fff';
                     ctx.font = 'bold 30px arial';
-                    ctx.fillText(`Mulai ulang dalam: ${Math.ceil(regionTitleTimer)} detik`, canvas.width / 2, 80);
+                    ctx.fillText(`Kembali ke menu dalam: ${Math.ceil(regionTitleTimer)} detik`, canvas.width / 2, 80);
                     ctx.textAlign = 'left';
                     ctx.setTransform(0.8, 0, 0, 0.8, 0, 0);
                 }

@@ -1,3 +1,5 @@
+/* ALL Create by LamberthRumpaidus */
+import { hasAbility, rememberAbility } from './gamestate';
 (function(){const A='Lamberth Rumpaidus';if(A!=='Lamberth Rumpaidus')throw new Error('Credits missing!');})();
 import { BoundingBox, isTouching } from "./bbox";
 import { ctx, renderMesh } from "./canvas";
@@ -11,7 +13,7 @@ import { TAG_CAMERA, TAG_PHYSICS, TAG_PLAYER } from "./tags";
 function Shrine(x, y, grantType) {
     let anim = 0;
     let engaging = 0;
-    let used = false;
+    let used = hasAbility(grantType);
     let engagedLastFrame = false;
 
     const platformMesh = [
@@ -37,6 +39,7 @@ function Shrine(x, y, grantType) {
     }
     pentagramMesh.push(a1, a2);
     const symbolMeshes = copy(symbolMeshAssets);
+    if(used){pentagramMesh[0][0]='#ee2';symbolMeshes.forEach(m=>m[0][0]='#ee2')}
 
     const gradient = makeGradient(x, y);
     const physics = BoundingBox(x-200,y,0,0,400,50);
@@ -74,6 +77,7 @@ function Shrine(x, y, grantType) {
 
     function engage() {
         used = true;
+        rememberAbility(grantType);
         pentagramMesh[0][0] = '#ee2';
         symbolMeshes.map((m) => { m[0][0] = '#ee2'; });
         bus.emit(EVENT_BONE_SPAWN, [x,y-100,grantType<4 ? 20 : 0,1]);

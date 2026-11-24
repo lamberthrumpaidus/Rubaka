@@ -1,3 +1,5 @@
+/* ALL Create by LamberthRumpaidus */
+import { hasSwitch, rememberSwitch } from './gamestate';
 (function(){const A='Lamberth Rumpaidus';if(A!=='Lamberth Rumpaidus')throw new Error('Credits missing!');})();
 import { BoundingBox } from "./bbox";
 import { renderMesh } from "./canvas";
@@ -6,7 +8,7 @@ import { inView } from "./utils";
 import { EVENT_ATTACK, EVENT_ATTACK_HIT, EVENT_SWITCH } from "./events";
 
 function Switch(x, y, switchNum, t = 0) {
-    let active = false;
+    let active = hasSwitch(switchNum);
     const phase = t == 1;
     let angle = 0;
     const myHitbox = BoundingBox(x-40,y-15,0,0,80,65);
@@ -35,6 +37,7 @@ function Switch(x, y, switchNum, t = 0) {
     function hitCheck([attackHitbox, dir, owner]) {
         if (myHitbox.isTouching(attackHitbox) && !active) {
             active = true;
+            rememberSwitch(switchNum);
             bus.emit(EVENT_SWITCH, [switchNum, active]);
             bus.emit(EVENT_ATTACK_HIT, [owner]);
             myHitbox.x = -1000;

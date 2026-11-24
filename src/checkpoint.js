@@ -1,3 +1,5 @@
+/* ALL Create by LamberthRumpaidus */
+import { registerCheckpoint } from './gamestate';
 (function(){const A='Lamberth Rumpaidus';if(A!=='Lamberth Rumpaidus')throw new Error('Credits missing!');})();
 import { BoundingBox, isTouching } from "./bbox";
 import { ctx, renderMesh } from "./canvas";
@@ -10,6 +12,7 @@ import { EVENT_FOCUS, EVENT_FOCUS_STOP, EVENT_PLAYER_CHECKPOINT, EVENT_PLAYER_RE
 import { TAG_CAMERA, TAG_PHYSICS, TAG_PLAYER } from "./tags";
 
 function Checkpoint(x, y, checkpointId) {
+    registerCheckpoint(checkpointId,x,y-150);
     let anim = 0;
     let engaging = 0;
     let used = false;

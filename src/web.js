@@ -1,3 +1,5 @@
+/* ALL Create by LamberthRumpaidus */
+import { hasWeb, rememberWeb } from './gamestate';
 (function(){const A='Lamberth Rumpaidus';if(A!=='Lamberth Rumpaidus')throw new Error('Credits missing!');})();
 import { BoundingBox } from "./bbox";
 import { renderMesh } from "./canvas";
@@ -8,6 +10,7 @@ import { TAG_MAP, TAG_PHYSICS } from "./tags";
 import { getObjectsByTag } from "./engine";
 
 function Web(x, y) {
+    const webId=x+","+y;if(hasWeb(webId))return {update(){[0,1].forEach(v=>getObjectsByTag(TAG_MAP)[0].d(Math.floor(x/100),Math.floor(y/100)-v,null));return true}};
     y -= 50;
     let burnup = false;
     let burntime = 0;
@@ -79,6 +82,7 @@ function Web(x, y) {
             omx = 10;
             if (flames && !burnup) {
                 burnup = true;
+                rememberWeb(webId);
                 
                 for (let i = 0; i < 18; i++) {
                     setTimeout(() => {

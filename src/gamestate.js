@@ -1,45 +1,11 @@
-(function(){const A='Lamberth Rumpaidus';if(A!=='Lamberth Rumpaidus')throw new Error('Credits missing!');})();
-let bones = 0;
-let hp = 3;
-let checkpointId = 0;
-let deathCount = 0;
-let treasures = 0;
-let totalTreasures = 0;
-
-function saveProgress() {
-    
-}
-
-function loadProgress() {
-    
-}
-
-function addHp(h) { hp += h; }
-function getHp() { return hp; }
-function addBones(b) { bones = Math.max(bones + b, 0); saveProgress(); }
-function getBones() { return bones; }
-function respawn() { bones = bones>>1; hp = 3; deathCount++; saveProgress(); }
-function setCheckpointId(id) { checkpointId = id; hp = 3; saveProgress(); }
-function getCheckpointId() { return checkpointId; }
-function getDeathCount() { return deathCount; }
-function foundTreasure() { treasures++; saveProgress(); }
-function getTreasures() { return treasures; }
-function getTotalNumTreasure() { return totalTreasures; }
-function setTotalNumTreasure(v) { totalTreasures = v; }
-
-export {
-    addHp,
-    getHp,
-    addBones,
-    getBones,
-    setCheckpointId,
-    getCheckpointId,
-    getDeathCount,
-    foundTreasure,
-    getTreasures,
-    getTotalNumTreasure,
-    setTotalNumTreasure,
-    respawn,
-    saveProgress,
-    loadProgress,
-}
+/* ALL Create by LamberthRumpaidus */
+let bones=0,hp=3,checkpointId=0,deathCount=0,totalTreasures=0;
+let abilities=new Set(),openedSwitches=new Set(),collectedTreasures=new Set(),burnedWebs=new Set();
+const checkpointSpawns=Object.create(null),progressKey="rubaka-progress-v1";
+function readProgress(){try{const p=JSON.parse(localStorage.getItem(progressKey));if(p&&p.version===1&&Number.isInteger(p.checkpointId)&&p.checkpointId>=0&&p.checkpointId<=4)return p}catch{}return null}
+function hasProgress(){return !!readProgress()}
+function saveProgress(){try{localStorage.setItem(progressKey,JSON.stringify({version:1,checkpointId,bones,deathCount,abilities:[...abilities],switches:[...openedSwitches],treasures:[...collectedTreasures],webs:[...burnedWebs]}))}catch{}}
+function loadProgress(continueGame){const p=continueGame?readProgress():null,integer=n=>Number.isSafeInteger(n)&&n>=0?n:0,list=(a,valid)=>new Set(Array.isArray(a)?a.filter(valid):[]),coords=x=>typeof x==="string"&&/^-?\d+,-?\d+$/.test(x);bones=integer(p?.bones);deathCount=integer(p?.deathCount);checkpointId=integer(p?.checkpointId);hp=3;totalTreasures=0;abilities=list(p?.abilities,a=>Number.isInteger(a)&&a>=0&&a<=3);openedSwitches=list(p?.switches,a=>Number.isInteger(a)&&a>=0&&a<=8);collectedTreasures=list(p?.treasures,coords);burnedWebs=list(p?.webs,coords)}
+function addHp(h){hp+=h}function getHp(){return hp}function addBones(n){bones=Math.max(bones+n,0);saveProgress()}function getBones(){return bones}function respawn(){bones=bones>>1;hp=3;deathCount++;saveProgress()}function setCheckpointId(id){checkpointId=Number(id);hp=3;saveProgress()}function getCheckpointId(){return checkpointId}function registerCheckpoint(id,x,y){checkpointSpawns[id]=[x,y]}function getCheckpointSpawn(){return checkpointSpawns[checkpointId]}function getDeathCount(){return deathCount}
+function foundTreasure(id){collectedTreasures.add(id);saveProgress()}function hasTreasure(id){return collectedTreasures.has(id)}function getTreasures(){return collectedTreasures.size}function getTotalNumTreasure(){return totalTreasures}function setTotalNumTreasure(v){totalTreasures=v}function rememberAbility(a){if(Number.isInteger(a)&&a>=0&&a<=3){abilities.add(a);saveProgress()}}function hasAbility(a){return abilities.has(a)}function getAbilities(){return [...abilities].sort((a,b)=>a-b)}function rememberSwitch(a){openedSwitches.add(a);saveProgress()}function hasSwitch(a){return openedSwitches.has(a)}function rememberWeb(id){burnedWebs.add(id);saveProgress()}function hasWeb(id){return burnedWebs.has(id)}
+export { addHp,getHp,addBones,getBones,setCheckpointId,getCheckpointId,getDeathCount,foundTreasure,getTreasures,getTotalNumTreasure,setTotalNumTreasure,respawn,saveProgress,loadProgress,hasProgress,registerCheckpoint,getCheckpointSpawn,hasTreasure,rememberAbility,hasAbility,getAbilities,rememberSwitch,hasSwitch,rememberWeb,hasWeb };

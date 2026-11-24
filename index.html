@@ -1,4 +1,7 @@
-<html lang="id"><!-- ALL Create by LamberthRumpaidus --><meta charset="utf-8"><meta property="og:type" content="website"><meta property="og:title" content="RUBAKA — Permainan Aksi dan Petualangan"><meta property="og:description" content="Permainan platformer browser dengan eksplorasi area dan kontrol desktop maupun seluler."><meta name="twitter:card" content="summary"><meta name="color-scheme" content="dark"><title>RUBAKA — Adventure Game</title><meta name="description" content="RUBAKA, platform game petualangan dengan peta, checkpoint, skill, dan kontrol multi-perangkat."><meta name="theme-color" content="#061727"><link rel="icon" type="image/svg+xml" href="app-logo.svg"><link rel="stylesheet" href="rubaka-experience.css"><meta name="author" content="Lamberth Rumpaidus"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" /><link rel="shortcut icon"/><style>body{touch-action:none;overflow:hidden;background:#000;margin:0px;font-family:sans-serif;}h1{color:#fff;text-align:center;margin-top:30px;}h2{color:#666;font-style:italic;text-align:center;}.tbtn{display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:bold;color:#000;background:rgba(255,255,255,0.5);border:2px solid #fff;border-radius:50%;opacity:0.5;position:absolute;width:50px;height:50px;user-select:none;}</style><style>.lr-monogram{display:block;width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 0 16px rgba(3,224,178,.25))}.lr-brand-badge{display:inline-flex;align-items:center;justify-content:center;max-width:180px;min-width:90px;min-height:48px;padding:7px 12px;border:1px solid rgba(36,222,193,.24);border-radius:16px;background:linear-gradient(130deg,rgba(6,34,42,.77),rgba(6,16,28,.68));backdrop-filter:blur(10px);box-shadow:0 12px 30px #0005;transition:transform .2s,border-color .2s}.lr-brand-badge:hover{transform:translateY(-2px);border-color:#0fe5c8}.lr-brand-badge:focus-visible{outline:2px solid #30eac9;outline-offset:3px}@media(prefers-reduced-motion:reduce){.lr-brand-badge{transition:none!important}}body{background:radial-gradient(ellipse at 50% 5%,#14344b 0%,#070d1b 52%,#030509 100%);color:#e9fefa}body>h1{font-family:system-ui,sans-serif;letter-spacing:.12em;font-size:clamp(30px,6vw,62px);font-weight:900;line-height:1.08;margin-top:clamp(26px,7vh,80px);text-shadow:0 0 40px #00bca755}body>h2{font-family:system-ui,sans-serif;font-size:clamp(10px,1.5vw,13px);letter-spacing:.22em;font-style:normal;color:#81cecc;margin-top:15px;animation:lrPulse 2.4s ease-in-out infinite}.lr-rubaka-title{background:linear-gradient(130deg,#efffff,#65e7d3 48%,#a7c7ff);background-clip:text;-webkit-background-clip:text;color:transparent}.lr-rubaka-credit{position:absolute;z-index:10;bottom:max(16px,env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);width:140px;height:60px}.lr-rubaka-credit:hover{transform:translateX(-50%) translateY(-2px)}.tbtn{border:1px solid #8bf5de88!important;background:linear-gradient(140deg,#163d54cc,#081627aa)!important;box-shadow:0 4px 20px #0006;color:#efffff!important;backdrop-filter:blur(8px)}@keyframes lrPulse{50%{opacity:.55}}@media(prefers-reduced-motion:reduce){body>h2{animation:none}}@media(max-height:460px){.lr-rubaka-credit{bottom:4px;width:98px;height:44px}body>h1{margin-top:8px}} </style><h1><img src="app-logo.svg" class="rb-app-logo" alt="Logo game Rubaka" width="90" height="90"><span class="lr-rubaka-title">RUBAKA</span></h1><h2>PRESS ANY KEY TO START</h2><section class="rb-intro" id="rb-intro" aria-label="Cara bermain Rubaka"><h3>ENTER THE ADVENTURE</h3><div class="rb-key-grid"><kbd>← → / A D • Gerak</kbd><kbd>Z / Space • Lompat</kbd><kbd>X / Enter • Serang</kbd><kbd>C / K • Dash</kbd><kbd>V / L • Api</kbd><kbd>M • Peta</kbd><kbd>Esc / P • Jeda</kbd></div><p>Kontrol juga tersedia pada layar sentuh dan gamepad. Skill Dash, Api, serta kemampuan lain terbuka selama petualangan.</p><div class="rb-actions"><button id="rb-start" type="button">Mulai Bermain</button><button id="rb-help-toggle" type="button" aria-expanded="false" aria-controls="rb-help">Panduan</button><button id="rb-full" type="button">Layar Penuh</button><button id="rb-contrast" type="button" aria-pressed="false">Kontras</button><button id="rb-motion" type="button" aria-pressed="false">Gerakan normal</button></div></section><section class="rb-help-panel" id="rb-help" hidden aria-label="Panduan lengkap"><h3>Panduan Rubaka</h3><ul><li>Gerak dengan WASD atau tombol panah.</li><li>Z/Space lompat, X/Enter menyerang.</li><li>Dash dan serangan api dapat dibuka melalui progres.</li><li>Tekan M untuk peta, Esc/P untuk jeda.</li><li>Gunakan +/- untuk menyesuaikan volume.</li><li>Simpan progres dengan checkpoint saat bermain.</li></ul><button id="rb-help-close" type="button">Tutup</button></section><div class="rb-status" id="rb-status" role="status" aria-live="polite"></div><a class="lr-brand-badge lr-rubaka-credit" href="https://github.com/lamberthrumpaidus" target="_blank" rel="noopener noreferrer" aria-label="L/R — Lamberth Rumpaidus di GitHub"><img class="lr-monogram" src="assets/lr-credit-logo-v2.png" alt="Logo L/R Lamberth Rumpaidus" decoding="async"></a><canvas></canvas><div id="touchui" style="display:none;position:fixed;bottom:0;width:100%;height:100%;z-index:9;user-select:none;"><div id="t_u" class="tbtn" style="display:none;bottom:120px;left:70px;font-size:24px;">&#8593;</div><div id="t_d" class="tbtn" style="display:none;bottom:20px;left:70px;font-size:24px;">&#8595;</div><div id="t_l" class="tbtn" style="bottom:70px;left:20px;font-size:24px;">&#8592;</div><div id="t_r" class="tbtn" style="bottom:70px;left:120px;font-size:24px;">&#8594;</div><div id="t_a" class="tbtn" style="bottom:30px;right:30px;width:70px;height:70px;font-size:16px;">ATTACK</div><div id="t_j" class="tbtn" style="bottom:120px;right:30px;">JUMP</div><div id="t_c" class="tbtn" style="display:none;bottom:100px;right:100px;">DASH</div><div id="t_v" class="tbtn" style="display:none;bottom:40px;right:120px;">FIRE</div><div id="t_topmenu" style="position:absolute;top:0;right:0;width:100px;height:120px;"><div id="t_p" class="tbtn" style="top:70px;right:20px;width:40px;height:40px;font-size:8px;opacity:0;transition:opacity 0.3s;">PAUSE</div><div id="t_m" class="tbtn" style="top:20px;right:20px;width:40px;height:40px;font-size:8px;opacity:0;transition:opacity 0.3s;">MAP</div></div></div><div id="cheatMenu" style="display:none;position:absolute;top:140px;right:20px;z-index:100;background:rgba(0,0,0,0.8);padding:10px;border-radius:8px;border:1px solid #fff;"><input type="text" id="cheatInput" placeholder="Kode Cheat..." style="width:120px;padding:8px;font-size:14px;border-radius:4px;border:none;" onkeydown="if(event.key==='Enter') window.submitCheat()"/><div onclick="window.submitCheat()" style="margin-top:8px;padding:8px;background:#fff;color:#000;text-align:center;font-weight:bold;border-radius:4px;cursor:pointer;">OK</div></div><script>(() => {
+<!doctype html><html lang="id"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><meta name="author" content="Lamberth Rumpaidus"><meta name="theme-color" content="#17131b"><meta name="description" content="RUBAKA — permainan aksi-platformer dengan eksplorasi, pertarungan, dan checkpoint."><meta property="og:title" content="RUBAKA — Action Platformer"><meta property="og:type" content="website"><title>RUBAKA — Action Platformer</title><link rel="icon" href="app-logo.svg" type="image/svg+xml"><link rel="stylesheet" href="rubaka-experience.css"></head><body>
+<main id="rb-menu" class="rb-menu" aria-label="Menu utama RUBAKA"><div class="rb-inner"><img class="rb-game-logo" src="assets/rubaka-menu-logo.svg" alt="RUBAKA" width="780" height="350"><p class="rb-description">Jelajahi dunia bawah yang gelap, kalahkan monster, buka kemampuan baru, dan temukan jalan menuju takhta.</p><div id="rb-actions" class="rb-actions"><button id="rb-start" class="rb-button primary" type="button">MULAI GAME</button><button id="rb-resume" class="rb-button" type="button" disabled>LANJUTKAN</button><button id="rb-setting" class="rb-button" type="button">SETTING</button></div><div id="rb-loading" class="rb-loading" role="status" hidden><span id="rb-loading-text">Menyiapkan petualangan…</span><progress id="rb-progress" max="100" value="0"></progress></div><p id="rb-notice" class="rb-notice" hidden></p><a class="rb-credit" href="https://github.com/lamberthrumpaidus" target="_blank" rel="noopener noreferrer"><img src="assets/lr-credit-logo-v2.png" alt="Logo L/R" width="110" height="60"><span><small>CREATED BY</small>LamberthRumpaidus</span></a></div></main>
+<dialog id="rb-settings" class="rb-settings" aria-labelledby="rb-settings-title"><h2 id="rb-settings-title">Pengaturan</h2><label class="rb-setting">Volume <span id="rb-volume-value">100%</span><input id="rb-volume" type="range" min="0" max="100" step="5" value="100" aria-label="Volume"></label><label class="rb-setting">Kurangi animasi menu <input id="rb-motion" type="checkbox"></label><button class="rb-button" type="button" id="rb-full">Layar penuh</button><details><summary>Kontrol permainan</summary><p>Gerak: A/D atau ←/→<br>Lompat: Z atau Space<br>Serang: X atau Enter<br>Dash: C atau K<br>Api: V atau L<br>Peta: M atau N<br>Jeda: Esc atau P</p><p>Kontrol layar sentuh muncul saat bermain. Kemampuan baru terbuka sepanjang petualangan.</p></details><button class="rb-button primary" type="button" id="rb-settings-close">KEMBALI</button></dialog>
+<canvas></canvas><div id="touchui" style="display:none;position:fixed;bottom:0;width:100%;height:100%;z-index:9;user-select:none;"><div id="t_u" class="tbtn" style="display:none;bottom:120px;left:70px;font-size:24px;">&#8593;</div><div id="t_d" class="tbtn" style="display:none;bottom:20px;left:70px;font-size:24px;">&#8595;</div><div id="t_l" class="tbtn" style="bottom:70px;left:20px;font-size:24px;">&#8592;</div><div id="t_r" class="tbtn" style="bottom:70px;left:120px;font-size:24px;">&#8594;</div><div id="t_a" class="tbtn" style="bottom:30px;right:30px;width:70px;height:70px;font-size:16px;">ATTACK</div><div id="t_j" class="tbtn" style="bottom:120px;right:30px;">JUMP</div><div id="t_c" class="tbtn" style="display:none;bottom:100px;right:100px;">DASH</div><div id="t_v" class="tbtn" style="display:none;bottom:40px;right:120px;">FIRE</div><div id="t_topmenu" style="position:absolute;top:0;right:0;width:100px;height:120px;"><div id="t_p" class="tbtn" style="top:70px;right:20px;width:40px;height:40px;font-size:8px;opacity:0;transition:opacity 0.3s;">PAUSE</div><div id="t_m" class="tbtn" style="top:20px;right:20px;width:40px;height:40px;font-size:8px;opacity:0;transition:opacity 0.3s;">MAP</div></div></div><div id="cheatMenu" style="display:none;position:absolute;top:140px;right:20px;z-index:100;background:rgba(0,0,0,0.8);padding:10px;border-radius:8px;border:1px solid #fff;"><input type="text" id="cheatInput" placeholder="Kode Cheat..." style="width:120px;padding:8px;font-size:14px;border-radius:4px;border:none;" onkeydown="if(event.key==='Enter') window.submitCheat()"/><div onclick="window.submitCheat()" style="margin-top:8px;padding:8px;background:#fff;color:#000;text-align:center;font-weight:bold;border-radius:4px;cursor:pointer;">OK</div></div><script>(() => {
   
   (function() {
     const A = "Lamberth Rumpaidus";
@@ -455,61 +458,16 @@
     if (A !== "Lamberth Rumpaidus")
       throw new Error("Credits missing!");
   })();
-  var bones = 0;
-  var hp = 3;
-  var checkpointId = 0;
-  var deathCount = 0;
-  var treasures = 0;
-  var totalTreasures = 0;
-  function saveProgress() {
-  }
-  function loadProgress() {
-  }
-  function addHp(h) {
-    hp += h;
-  }
-  function getHp() {
-    return hp;
-  }
-  function addBones(b) {
-    bones = Math.max(bones + b, 0);
-    saveProgress();
-  }
-  function getBones() {
-    return bones;
-  }
-  function respawn() {
-    bones = bones >> 1;
-    hp = 3;
-    deathCount++;
-    saveProgress();
-  }
-  function setCheckpointId(id) {
-    checkpointId = id;
-    hp = 3;
-    saveProgress();
-  }
-  function getCheckpointId() {
-    return checkpointId;
-  }
-  function getDeathCount() {
-    return deathCount;
-  }
-  function foundTreasure() {
-    treasures++;
-    saveProgress();
-  }
-  function getTreasures() {
-    return treasures;
-  }
-  function getTotalNumTreasure() {
-    return totalTreasures;
-  }
-  function setTotalNumTreasure(v) {
-    totalTreasures = v;
-  }
+let bones=0,hp=3,checkpointId=0,deathCount=0,totalTreasures=0;
+let abilities=new Set(),openedSwitches=new Set(),collectedTreasures=new Set(),burnedWebs=new Set();
+const checkpointSpawns=Object.create(null),progressKey="rubaka-progress-v1";
+function readProgress(){try{const p=JSON.parse(localStorage.getItem(progressKey));if(p&&p.version===1&&Number.isInteger(p.checkpointId)&&p.checkpointId>=0&&p.checkpointId<=4)return p}catch{}return null}
+function hasProgress(){return !!readProgress()}
+function saveProgress(){try{localStorage.setItem(progressKey,JSON.stringify({version:1,checkpointId,bones,deathCount,abilities:[...abilities],switches:[...openedSwitches],treasures:[...collectedTreasures],webs:[...burnedWebs]}))}catch{}}
+function loadProgress(continueGame){const p=continueGame?readProgress():null,integer=n=>Number.isSafeInteger(n)&&n>=0?n:0,list=(a,valid)=>new Set(Array.isArray(a)?a.filter(valid):[]),coords=x=>typeof x==="string"&&/^-?\d+,-?\d+$/.test(x);bones=integer(p?.bones);deathCount=integer(p?.deathCount);checkpointId=integer(p?.checkpointId);hp=3;totalTreasures=0;abilities=list(p?.abilities,a=>Number.isInteger(a)&&a>=0&&a<=3);openedSwitches=list(p?.switches,a=>Number.isInteger(a)&&a>=0&&a<=8);collectedTreasures=list(p?.treasures,coords);burnedWebs=list(p?.webs,coords)}
+function addHp(h){hp+=h}function getHp(){return hp}function addBones(n){bones=Math.max(bones+n,0);saveProgress()}function getBones(){return bones}function respawn(){bones=bones>>1;hp=3;deathCount++;saveProgress()}function setCheckpointId(id){checkpointId=Number(id);hp=3;saveProgress()}function getCheckpointId(){return checkpointId}function registerCheckpoint(id,x,y){checkpointSpawns[id]=[x,y]}function getCheckpointSpawn(){return checkpointSpawns[checkpointId]}function getDeathCount(){return deathCount}
+function foundTreasure(id){collectedTreasures.add(id);saveProgress()}function hasTreasure(id){return collectedTreasures.has(id)}function getTreasures(){return collectedTreasures.size}function getTotalNumTreasure(){return totalTreasures}function setTotalNumTreasure(v){totalTreasures=v}function rememberAbility(a){if(Number.isInteger(a)&&a>=0&&a<=3){abilities.add(a);saveProgress()}}function hasAbility(a){return abilities.has(a)}function getAbilities(){return [...abilities].sort((a,b)=>a-b)}function rememberSwitch(a){openedSwitches.add(a);saveProgress()}function hasSwitch(a){return openedSwitches.has(a)}function rememberWeb(id){burnedWebs.add(id);saveProgress()}function hasWeb(id){return burnedWebs.has(id)}
 
-  
   (function() {
     const A = "Lamberth Rumpaidus";
     if (A !== "Lamberth Rumpaidus")
@@ -634,7 +592,7 @@
     let regionTitleTimer;
     let totalTime;
     let fadeIn = 0;
-    let unlockedAbilities = {};
+    let unlockedAbilities=Object.fromEntries(getAbilities().map(a=>[a,true]));
     function syncButtons() {
       const t_c = document.getElementById("t_c");
       if (t_c) {
@@ -653,7 +611,7 @@
       fadeIn += dT;
       if (regionTitle && regionTitle.startsWith("VICTORY") && regionTitleTimer <= 0) {
         regionTitleTimer = 9999;
-        localStorage.setItem("autoStart", "true");
+        /* Return to menu. */
         location.reload();
       }
     }
@@ -695,7 +653,7 @@
             ctx2.textAlign = "center";
             ctx2.fillStyle = "#fff";
             ctx2.font = "bold 30px arial";
-            ctx2.fillText(`Mulai ulang dalam: ${Math.ceil(regionTitleTimer)} detik`, canvas.width / 2, 80);
+            ctx2.fillText(`Kembali ke menu dalam: ${Math.ceil(regionTitleTimer)} detik`, canvas.width / 2, 80);
             ctx2.textAlign = "left";
             ctx2.setTransform(0.8, 0, 0, 0.8, 0, 0);
           }
@@ -1888,6 +1846,7 @@
     let hp2 = 3 * t;
     const myHitbox = BoundingBox(x - 25, y - 55, 0, 0, 50, 55);
     setTotalNumTreasure(getTotalNumTreasure() + 1);
+    const treasureId=x+","+y;if(hasTreasure(treasureId))return {update(){getObjectsByTag(TAG_MAP)[0].d(Math.floor(x/100),Math.floor(y/100),null);return true}};
     const baseColor = ["#a63", "#889", "#db1"][t - 1];
     const bgColor = ["#742", "#667", "#b90"][t - 1];
     const treasureMesh = copy(treasureMeshAsset);
@@ -1897,7 +1856,7 @@
         emit(EVENT_BONE_SPAWN, [x, y - 20, [7, 14, 11][t - 1], 1]);
         emit(EVENT_BONE_SPAWN, [x, y - 20, [1, 3, 7][t - 1], 2]);
         off(EVENT_ATTACK, hitCheck);
-        foundTreasure();
+        foundTreasure(treasureId);
         getObjectsByTag(TAG_MAP)[0].d(parseInt(x / 100), parseInt(y / 100), null);
         return true;
       }
@@ -2014,8 +1973,8 @@
       throw new Error("Credits missing!");
   })();
   function Gate(x, y, switchNum) {
-    let open = false;
-    let pos = 50;
+    let open = hasSwitch(switchNum);
+    let pos = open ? -150 : 50;
     const gateMesh = [
       ["#fff", 8, 0],
       [0, 0, 0, -200],
@@ -2062,7 +2021,7 @@
       throw new Error("Credits missing!");
   })();
   function Switch(x, y, switchNum, t = 0) {
-    let active = false;
+    let active = hasSwitch(switchNum);
     const phase = t == 1;
     let angle = 0;
     const myHitbox = BoundingBox(x - 40, y - 15, 0, 0, 80, 65);
@@ -2087,6 +2046,7 @@
     function hitCheck([attackHitbox, dir, owner]) {
       if (myHitbox.isTouching(attackHitbox) && !active) {
         active = true;
+        rememberSwitch(switchNum);
         emit(EVENT_SWITCH, [switchNum, active]);
         emit(EVENT_ATTACK_HIT, [owner]);
         myHitbox.x = -1e3;
@@ -2113,7 +2073,7 @@
   function Shrine(x, y, grantType) {
     let anim = 0;
     let engaging = 0;
-    let used = false;
+    let used = hasAbility(grantType);
     let engagedLastFrame = false;
     const platformMesh = [
       ["#777", 5, 0],
@@ -2138,6 +2098,7 @@
     }
     pentagramMesh.push(a1, a2);
     const symbolMeshes = copy(symbolMeshAssets);
+    if(used){pentagramMesh[0][0]='#ee2';symbolMeshes.forEach(m=>m[0][0]='#ee2')}
     const gradient = makeGradient(x, y);
     const physics = BoundingBox(x - 200, y, 0, 0, 400, 50);
     const touchbox = BoundingBox(x - 75, y - 60, 0, 0, 150, 10);
@@ -2171,6 +2132,7 @@
     }
     function engage() {
       used = true;
+      rememberAbility(grantType);
       pentagramMesh[0][0] = "#ee2";
       symbolMeshes.map((m) => {
         m[0][0] = "#ee2";
@@ -2215,6 +2177,7 @@
       throw new Error("Credits missing!");
   })();
   function Web(x, y) {
+    const webId=x+","+y;if(hasWeb(webId))return {update(){[0,1].forEach(v=>getObjectsByTag(TAG_MAP)[0].d(Math.floor(x/100),Math.floor(y/100)-v,null));return true}};
     y -= 50;
     let burnup = false;
     let burntime = 0;
@@ -2281,6 +2244,7 @@
         omx = 10;
         if (flames && !burnup) {
           burnup = true;
+          rememberWeb(webId);
           for (let i = 0; i < 18; i++) {
             setTimeout(() => {
               emit(EVENT_SFX_FLAME, [
@@ -2319,6 +2283,7 @@
       throw new Error("Credits missing!");
   })();
   function Checkpoint(x, y, checkpointId2) {
+    registerCheckpoint(checkpointId2,x,y-150);
     let anim = 0;
     let engaging = 0;
     let used = false;
@@ -3086,6 +3051,7 @@
       on(EVENT_PLAYER_CHECKPOINT, play(grantSound));
       on(EVENT_WEB_BOING, play(boingSound));
       masterGainNode = audioCtx.createGain();
+      masterGainNode.gain.value=Number.isFinite(window.rubakaVolume)?window.rubakaVolume:1;
       masterGainNode.connect(audioCtx.destination);
       gainNodeA = audioCtx.createGain();
       gainNodeA.connect(masterGainNode);
@@ -3251,31 +3217,19 @@
       throw new Error("Credits missing!");
   })();
   var gameMap = map_default();
-  async function initialize() {
-    off(EVENT_ANY_KEY, initialize);
-    const h1 = document.getElementsByTagName("h1")[0];
-    on("load-progress", (p) => {
-      h1.innerText = `Loading... (${parseInt(p * 100)}%)`;
-    });
-    document.getElementsByTagName("h2")[0].innerHTML = "&nbsp;";
-    h1.innerText = "Loading...";
-    await new Promise((r) => setTimeout(r, 100));
-    console.log("Audio init starting");
-    const audio = audio_default();
-    await audio.init();
-    console.log("Audio init FINISHED!");
-    document.getElementsByTagName("h2")[0].remove();
-    h1.remove();
-    const h3 = document.getElementsByTagName("h3")[0];
-    if (h3)
-      h3.remove();
-    console.log("UI removed!");
-    loadProgress();
+async function initialize(continueGame=false){
+    loadProgress(continueGame);
+    const progress=p=>window.dispatchEvent(new CustomEvent("rubaka-loading",{detail:p*.85}));
+    on("load-progress",progress);
+    start();
+    const audio=audio_default();
+    try{await audio.init()}finally{off("load-progress",progress)}
+    window.dispatchEvent(new CustomEvent("rubaka-loading",{detail:.9}));
     clear();
-    console.log("Generating game map...");
     await gameMap.generate();
-    console.log("Game map generated!");
-    [gameMap, camera_default(), hud_default()].map(add);
+    [gameMap,camera_default(), hud_default()].map(add);
+    const player=getObjectsByTag(TAG_PLAYER)[0];
+    if(continueGame){const spawn=getCheckpointSpawn();if(spawn)player.reset(...spawn);getAbilities().forEach(a=>player.grant(a))}
     on(EVENT_FIREBALL, ([x, y, dir]) => add(fireball_default(x, y, dir)));
     on(EVENT_SFX_FLAME, ([x, y, s, t]) => add(flame_sfx_default(x, y, s, t)));
     on(EVENT_BONE_SPAWN, ([x, y, N, t]) => {
@@ -3320,29 +3274,12 @@
         emit(EVENT_SET_VOLUME, -0.1);
       }
     });
-  }
-  function mainMenu() {
-    if (localStorage.getItem("autoStart") === "true") {
-      localStorage.removeItem("autoStart");
-      document.getElementsByTagName("h2")[0].innerHTML = "&nbsp;";
-      start();
-      initialize();
-      return;
-    }
-    add({
-      anim: 0,
-      update: function(dT) {
-        this.anim += 1.5 * dT;
-      },
-      render: function(ctx2) {
-        scaleInPlace(2.5, canvas.width / 2, 160);
-        renderMesh(headMeshAsset, canvas.width / 2, 146, 0, Math.cos(this.anim) * 0.6, Math.cos(this.anim) * 0.08);
-        ctx2.setTransform(1, 0, 0, 1, 0, 0);
-      }
-    });
-    start();
-    on(EVENT_ANY_KEY, initialize);
-  }
-  mainMenu();
+    saveProgress();
+    window.dispatchEvent(new CustomEvent("rubaka-loading",{detail:1}));
+}
+let launching=false;
+window.rubakaHasSave=hasProgress;
+window.rubakaStart=async function(continueGame){if(launching)return;launching=true;await initialize(!!continueGame)};
+
 })();
-</script><script src="rubaka-experience.js" defer></script>
+</script><script src="rubaka-experience.js" defer></script></body></html>

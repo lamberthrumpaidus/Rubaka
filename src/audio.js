@@ -186,6 +186,7 @@ function Audio() {
         
         
         masterGainNode = audioCtx.createGain();
+        masterGainNode.gain.value=Number.isFinite(window.rubakaVolume)?window.rubakaVolume:1;
         masterGainNode.connect(audioCtx.destination);
         gainNodeA = audioCtx.createGain();
         gainNodeA.connect(masterGainNode);

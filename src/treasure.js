@@ -1,3 +1,5 @@
+/* ALL Create by LamberthRumpaidus */
+import { hasTreasure } from './gamestate';
 (function(){const A='Lamberth Rumpaidus';if(A!=='Lamberth Rumpaidus')throw new Error('Credits missing!');})();
 import * as bus from './bus';
 import { retainTransform, scaleInPlace } from './canvas';
@@ -20,6 +22,7 @@ function Treasure(x, y, t) {
     let hp = 3 * t;
     const myHitbox = BoundingBox(x-25,y-55,0,0,50,55);
     setTotalNumTreasure(getTotalNumTreasure() + 1);
+    const treasureId=x+","+y;if(hasTreasure(treasureId))return {update(){getObjectsByTag(TAG_MAP)[0].d(Math.floor(x/100),Math.floor(y/100),null);return true}};
 
     const baseColor = ['#a63', '#889', '#db1'][t-1];
     const bgColor = ['#742', '#667', '#b90'][t-1];
@@ -31,7 +34,7 @@ function Treasure(x, y, t) {
             bus.emit(EVENT_BONE_SPAWN, [x,y-20, [7, 14, 11][t-1], 1]);
             bus.emit(EVENT_BONE_SPAWN, [x,y-20, [1, 3, 7][t-1], 2]);
             bus.off(EVENT_ATTACK, hitCheck);
-            foundTreasure();
+            foundTreasure(treasureId);
             getObjectsByTag(TAG_MAP)[0].d(parseInt(x/100), parseInt(y/100), null);
             return true;
         }

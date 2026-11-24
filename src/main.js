@@ -1,3 +1,6 @@
+/* ALL Create by LamberthRumpaidus */
+import { hasProgress, saveProgress, getCheckpointSpawn, getAbilities } from './gamestate';
+import { TAG_PLAYER } from './tags';
 (function(){const A='Lamberth Rumpaidus';if(A!=='Lamberth Rumpaidus')throw new Error('Credits missing!');})();
 import * as bus from './bus';
 import { start, add, getObjectsByTag, clear, togglePause } from './engine';
@@ -15,46 +18,19 @@ import { headMeshAsset } from './assets';
 import { canvas, renderMesh, scaleInPlace } from './canvas';
 
 const gameMap = Map();
-async function initialize() {
-    
-    bus.off(EVENT_ANY_KEY, initialize);
-    const h1 = document.getElementsByTagName('h1')[0];
-    bus.on('load-progress', (p) => {
-        h1.innerText=`Loading... (${parseInt(p * 100)}%)`;
-    });
-
-    
-    document.getElementsByTagName('h2')[0].innerHTML = '&nbsp;';
-    h1.innerText='Loading...';
-    await new Promise((r) => setTimeout(r, 100));
-
-    
-    console.log("Audio init starting");
-    const audio = Audio();
-    await audio.init();
-    console.log("Audio init FINISHED!");
-    document.getElementsByTagName('h2')[0].remove();
-    h1.remove();
-    const h3 = document.getElementsByTagName('h3')[0];
-    if (h3) h3.remove();
-    console.log("UI removed!");
-    
-    
-    loadProgress();
+async function initialize(continueGame=false){
+    loadProgress(continueGame);
+    const progress=p=>window.dispatchEvent(new CustomEvent("rubaka-loading",{detail:p*.85}));
+    bus.on("load-progress",progress);
+    start();
+    const audio=Audio();
+    try{await audio.init()}finally{bus.off("load-progress",progress)}
+    window.dispatchEvent(new CustomEvent("rubaka-loading",{detail:.9}));
     clear();
-    console.log("Generating game map...");
     await gameMap.generate();
-    console.log("Game map generated!");
-    [gameMap, Camera(), HUD()].map(add);
-
-
-    
-    
-    
-    
-    
-
-    
+    [gameMap,Camera(), HUD()].map(add);
+    const player=getObjectsByTag(TAG_PLAYER)[0];
+    if(continueGame){const spawn=getCheckpointSpawn();if(spawn)player.reset(...spawn);getAbilities().forEach(a=>player.grant(a))}
     bus.on(EVENT_FIREBALL, ([x, y, dir]) => add(Fireball(x, y, dir)));
     bus.on(EVENT_SFX_FLAME, ([x, y, s, t]) => add(FlameSFX(x, y, s, t)));
     bus.on(EVENT_BONE_SPAWN, ([x,y,N,t]) => { 
@@ -99,32 +75,9 @@ async function initialize() {
             bus.emit(EVENT_SET_VOLUME, -0.1);
         }
     });
+    saveProgress();
+    window.dispatchEvent(new CustomEvent("rubaka-loading",{detail:1}));
 }
-
-function mainMenu() {
-    if (localStorage.getItem('autoStart') === 'true') {
-        localStorage.removeItem('autoStart');
-        document.getElementsByTagName('h2')[0].innerHTML = '&nbsp;';
-        start();
-        initialize();
-        return;
-    }
-
-    
-    add({
-        anim: 0,
-        update: function(dT) {
-            this.anim += 1.5 * dT;
-        },
-        render: function(ctx) {
-            scaleInPlace(2.5,canvas.width/2,160);
-            renderMesh(headMeshAsset, canvas.width/2, 146, 0, Math.cos(this.anim) * 0.6, Math.cos(this.anim) * 0.08);
-            ctx.setTransform(1,0,0,1,0,0);
-        },
-    });
-
-    start();
-    bus.on(EVENT_ANY_KEY, initialize);
-}
-mainMenu();
-
+let launching=false;
+window.rubakaHasSave=hasProgress;
+window.rubakaStart=async function(continueGame){if(launching)return;launching=true;await initialize(!!continueGame)};
